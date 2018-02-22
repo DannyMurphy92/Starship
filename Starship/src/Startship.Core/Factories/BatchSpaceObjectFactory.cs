@@ -1,21 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Starship.Core.Factories.Interfaces;
 using Starship.Core.Models.Interfaces;
 using Starship.Core.Services.Interfaces;
 
-namespace Starship.Core.Services
+namespace Starship.Core.Factories
 {
-    public class BatchSpaceObjectGenertor : IBatchSpaceObjectGenertor
+    public class BatchSpaceObjectFactory : IBatchSpaceObjectFactory
     {
         private readonly IRandomGenerator randomGenerator;
         private readonly IMonsterFactory monsterFactory;
         private readonly IPlanetFactory planetFactory;
 
-        public BatchSpaceObjectGenertor(
+        public BatchSpaceObjectFactory(
             IRandomGenerator randomGenerator, 
             IMonsterFactory monsterFactory, 
             IPlanetFactory planetFactory)
@@ -29,7 +25,7 @@ namespace Starship.Core.Services
         {
             for (var i = 0; i < amount; i++)
             {
-                var genPlanet = randomGenerator.GenerateBool();
+                var genPlanet = randomGenerator.GenerateBool(50);
 
                 if (genPlanet)
                 {

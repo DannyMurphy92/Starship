@@ -10,7 +10,7 @@ namespace Starship.Core.Services
             return new Random().NextDouble();
         }
 
-        public bool GenerateBool(int probabilityTrue = 50)
+        public bool GenerateBool(int probabilityTrue)
         {
             return new Random().Next(100) < probabilityTrue;
         }

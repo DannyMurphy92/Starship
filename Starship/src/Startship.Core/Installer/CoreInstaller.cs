@@ -25,8 +25,8 @@ namespace Starship.Core.Installer
                 Component.For<IPlanetFactory>()
                     .ImplementedBy<PlanetFactory>());
             container.Register(
-                Component.For<IBatchSpaceObjectGenertor>()
-                    .ImplementedBy<BatchSpaceObjectGenertor>());
+                Component.For<IBatchSpaceObjectFactory>()
+                    .ImplementedBy<BatchSpaceObjectFactory>());
         }
     }
 }

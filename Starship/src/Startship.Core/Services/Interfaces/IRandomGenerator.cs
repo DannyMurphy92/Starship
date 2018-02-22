@@ -4,6 +4,6 @@
     {
         double GenerateDouble();
 
-        bool GenerateBool(int probabilityTrue = 50);
+        bool GenerateBool(int probabilityTrue);
     }
 }

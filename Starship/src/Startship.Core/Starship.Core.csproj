@@ -62,8 +62,8 @@
     <Compile Include="Models\Position.cs" />
     <Compile Include="ObjectsEnum.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\BatchSpaceObjectGenertor.cs" />
-    <Compile Include="Services\Interfaces\IBatchSpaceObjectGenertor.cs" />
+    <Compile Include="Factories\BatchSpaceObjectFactory.cs" />
+    <Compile Include="Factories\Interfaces\IBatchSpaceObjectFactory.cs" />
     <Compile Include="Services\Interfaces\IPositionGenerator.cs" />
     <Compile Include="Services\Interfaces\IRandomGenerator.cs" />
     <Compile Include="Services\RandomGenerator.cs" />
