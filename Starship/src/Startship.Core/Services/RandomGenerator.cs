@@ -7,9 +7,12 @@ namespace Starship.Core.Services
     {
         public double GenerateDouble()
         {
-            var rdn = new Random();
+            return new Random().NextDouble();
+        }
 
-            return rdn.NextDouble();
+        public bool GenerateBool(int probabilityTrue = 50)
+        {
+            return new Random().Next(100) < probabilityTrue;
         }
     }
 }

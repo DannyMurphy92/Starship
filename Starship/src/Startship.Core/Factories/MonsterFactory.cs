@@ -5,7 +5,7 @@ using Starship.Core.Services.Interfaces;
 
 namespace Starship.Core.Factories
 {
-    public class MonsterFactory : ISpaceObjectFactory
+    public class MonsterFactory : IMonsterFactory
     {
         private readonly IPositionGenerator positionGenerator;
 
@@ -14,7 +14,7 @@ namespace Starship.Core.Factories
             this.positionGenerator = positionGenerator;
         }
 
-        public ISpaceObject Create()
+        public Monster Create()
         {
             return new Monster
             {

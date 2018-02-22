@@ -15,7 +15,7 @@ namespace Starship.Core.Services
 
         public Position Generate()
         {
-            return new Position()
+            return new Position
             {
                 XCoor = GenerateCoordinate(0, 999),
                 YCoor = GenerateCoordinate(0, 999),

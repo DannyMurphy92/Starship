@@ -19,8 +19,14 @@ namespace Starship.Core.Installer
                 Component.For<IPositionGenerator>()
                     .ImplementedBy<PositionGenerator>());
             container.Register(
-                Component.For<ISpaceObjectFactoryFactory>()
-                    .ImplementedBy<SpaceObjectFactoryFactory>());
+                Component.For<IMonsterFactory>()
+                    .ImplementedBy<MonsterFactory>());
+            container.Register(
+                Component.For<IPlanetFactory>()
+                    .ImplementedBy<PlanetFactory>());
+            container.Register(
+                Component.For<IBatchSpaceObjectGenertor>()
+                    .ImplementedBy<BatchSpaceObjectGenertor>());
         }
     }
 }

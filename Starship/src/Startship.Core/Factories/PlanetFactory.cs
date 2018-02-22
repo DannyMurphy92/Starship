@@ -5,7 +5,7 @@ using Starship.Core.Services.Interfaces;
 
 namespace Starship.Core.Factories
 {
-    public class PlanetFactory : ISpaceObjectFactory
+    public class PlanetFactory : IPlanetFactory
     {
         private readonly IPositionGenerator positionGenerator;
 
@@ -13,7 +13,7 @@ namespace Starship.Core.Factories
         {
             this.positionGenerator = positionGenerator;
         }
-        public ISpaceObject Create()
+        public Planet Create()
         {
             return new Planet
             {

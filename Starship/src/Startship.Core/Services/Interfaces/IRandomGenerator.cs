@@ -3,5 +3,7 @@
     public interface IRandomGenerator
     {
         double GenerateDouble();
+
+        bool GenerateBool(int probabilityTrue = 50);
     }
 }
