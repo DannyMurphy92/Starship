@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
-using Starship.Core.Models.Interfaces;
+using Starship.Core.Models.Abstracts;
 
 namespace Starship.Core.Factories.Interfaces
 {
     public interface IBatchSpaceObjectFactory
     {
-        IEnumerable<ISpaceObject> Generate(int amount);
+        IEnumerable<BaseSpaceObject> Generate(int amount);
     }
 }

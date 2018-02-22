@@ -56,7 +56,7 @@
     <Compile Include="Factories\MonsterFactory.cs" />
     <Compile Include="Factories\PlanetFactory.cs" />
     <Compile Include="Installer\CoreInstaller.cs" />
-    <Compile Include="Models\Interfaces\ISpaceObject.cs" />
+    <Compile Include="Models\Abstracts\BaseSpaceObject.cs" />
     <Compile Include="Models\Planet.cs" />
     <Compile Include="Models\Monster.cs" />
     <Compile Include="Models\Position.cs" />

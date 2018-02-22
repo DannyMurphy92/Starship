@@ -105,6 +105,8 @@
   <ItemGroup>
     <Compile Include="Factories\MonsterFactoryTestFixture.cs" />
     <Compile Include="Factories\PlanetFactoryTestFixture.cs" />
+    <Compile Include="Models\MonsterTestFixture.cs" />
+    <Compile Include="Models\PlanetTestFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Factories\BatchSpaceObjectFactoryTestFixture.cs" />
     <Compile Include="Services\PositionGeneratorTestFixture.cs" />

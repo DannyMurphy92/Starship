@@ -1,8 +1,8 @@
-﻿using Starship.Core.Models.Interfaces;
+﻿using Starship.Core.Models.Abstracts;
 
 namespace Starship.Core.Models
 {
-    public class Planet : ISpaceObject
+    public class Planet : BaseSpaceObject
     {
         public Planet(Position position, bool isHabitable, double area)
         {
@@ -14,7 +14,10 @@ namespace Starship.Core.Models
         public bool IsHabitable { get; }
 
         public double Area { get; }
-
-        public Position Position { get; }
+        
+        public override string ToString()
+        {
+            return $"Planet: {Position.X} {Position.Y} {Position.Z} {IsHabitable} {Area}";
+        }
     }
 }

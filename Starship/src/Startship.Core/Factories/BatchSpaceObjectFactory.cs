@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Starship.Core.Factories.Interfaces;
-using Starship.Core.Models.Interfaces;
+using Starship.Core.Models.Abstracts;
 using Starship.Core.Services.Interfaces;
 
 namespace Starship.Core.Factories
@@ -21,7 +21,7 @@ namespace Starship.Core.Factories
             this.planetFactory = planetFactory;
         }
 
-        public IEnumerable<ISpaceObject> Generate(int amount)
+        public IEnumerable<BaseSpaceObject> Generate(int amount)
         {
             for (var i = 0; i < amount; i++)
             {
