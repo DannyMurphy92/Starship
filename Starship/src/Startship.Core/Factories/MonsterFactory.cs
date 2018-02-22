@@ -16,10 +16,7 @@ namespace Starship.Core.Factories
 
         public Monster Create()
         {
-            return new Monster
-            {
-                Position = positionGenerator.Generate()
-            };
+            return new Monster(positionGenerator.Generate());
         }
     }
 }

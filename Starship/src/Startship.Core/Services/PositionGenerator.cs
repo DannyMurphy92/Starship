@@ -6,7 +6,7 @@ namespace Starship.Core.Services
 {
     public class PositionGenerator : IPositionGenerator
     {
-        private IRandomGenerator randomGenerator;
+        private readonly IRandomGenerator randomGenerator;
         
         public PositionGenerator(IRandomGenerator randomGenerator)
         {
@@ -15,12 +15,10 @@ namespace Starship.Core.Services
 
         public Position Generate()
         {
-            return new Position
-            {
-                XCoor = GenerateCoordinate(0, 999),
-                YCoor = GenerateCoordinate(0, 999),
-                ZCoor = GenerateCoordinate(0, 999),
-            };
+            return new Position(
+                GenerateCoordinate(0, 999),
+                GenerateCoordinate(0, 999),
+                GenerateCoordinate(0, 999));
         }
 
         private double GenerateCoordinate(double min, double max)

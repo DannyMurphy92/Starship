@@ -9,6 +9,10 @@ namespace Starship.Core.Models
 {
     public class Monster : ISpaceObject
     {
-        public Position Position { get; set; }
+        public Monster(Position position)
+        {
+            Position = position;
+        }
+        public Position Position { get; }
     }
 }

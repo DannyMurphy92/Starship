@@ -2,10 +2,17 @@
 {
     public class Position
     {
-        public double XCoor { get; set; }
+        public Position(double x, double y, double z)
+        {
+            X = x;
+            Y = y;
+            Z = z;
+        }
 
-        public double ZCoor { get; set; }
+        public double X { get; }
 
-        public double YCoor { get; set; }
+        public double Y { get; }
+
+        public double Z { get; }
     }
 }

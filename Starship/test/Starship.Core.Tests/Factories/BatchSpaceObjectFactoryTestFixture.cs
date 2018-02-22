@@ -10,6 +10,7 @@ using NUnit.Framework.Internal;
 using NUnit.Framework;
 using Starship.Core.Factories;
 using Starship.Core.Factories.Interfaces;
+using Starship.Core.Models;
 using Starship.Core.Services;
 using Starship.Core.Services.Interfaces;
 
@@ -32,6 +33,15 @@ namespace Starship.Core.Tests.Services
             planetFactoryMock = fixture.Freeze<Mock<IPlanetFactory>>();
             monsterFactoryMock = fixture.Freeze<Mock<IMonsterFactory>>();
             randomGenMock = fixture.Freeze<Mock<IRandomGenerator>>();
+        }
+
+        [SetUp]
+        public void Setup()
+        {
+            planetFactoryMock.Setup(p => p.Create())
+                .Returns(fixture.Create<Planet>());
+            monsterFactoryMock.Setup(p => p.Create())
+                .Returns(fixture.Create<Monster>());
         }
 
         [TearDown]

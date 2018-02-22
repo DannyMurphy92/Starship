@@ -4,10 +4,17 @@ namespace Starship.Core.Models
 {
     public class Planet : ISpaceObject
     {
-        public bool IsHabitable { get; set; }
+        public Planet(Position position, bool isHabitable, double area)
+        {
+            Position = position;
+            IsHabitable = isHabitable;
+            Area = area;
+        }
 
-        public double Area { get; set; }
+        public bool IsHabitable { get; }
 
-        public Position Position { get; set; }
+        public double Area { get; }
+
+        public Position Position { get; }
     }
 }

@@ -60,9 +60,9 @@ namespace Starship.Core.Tests.Services
             var result = subject.Generate();
 
             // Assert
-            Assert.AreEqual(res1*999, result.XCoor);
-            Assert.AreEqual(res2*999, result.YCoor);
-            Assert.AreEqual(res3*999, result.ZCoor);
+            Assert.AreEqual(res1*999, result.X);
+            Assert.AreEqual(res2*999, result.Y);
+            Assert.AreEqual(res3*999, result.Z);
         }
     }
 }
