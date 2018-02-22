@@ -4,10 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Starship.Core.Models.Interfaces
+namespace Starship.Core
 {
-    public interface ISpaceObject
+    public enum ObjectsEnum
     {
-        Position Position { get; }
+        Monster,
+
+        Planet
     }
 }

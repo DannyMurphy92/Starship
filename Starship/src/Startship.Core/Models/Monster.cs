@@ -7,12 +7,8 @@ using System.Threading.Tasks;
 
 namespace Starship.Core.Models
 {
-    public class SpaceMonster : ISpaceObject
+    public class Monster : ISpaceObject
     {
-        public double XCoor { get; set; }
-
-        public double ZCoor { get; set; }
-
-        public double YCoor { get; set; }
+        public Position Position { get; set; }
     }
 }

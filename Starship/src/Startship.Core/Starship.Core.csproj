@@ -40,10 +40,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Factories\Interfaces\ISpaceObjectFactory.cs" />
+    <Compile Include="Factories\Interfaces\ISpaceObjectFactoryFactory.cs" />
+    <Compile Include="Factories\MonsterFactory.cs" />
+    <Compile Include="Factories\PlanetFactory.cs" />
+    <Compile Include="Factories\SpaceObjectFactoryFactory.cs" />
     <Compile Include="Models\Interfaces\ISpaceObject.cs" />
-    <Compile Include="Models\SpacePlanet.cs" />
-    <Compile Include="Models\SpaceMonster.cs" />
+    <Compile Include="Models\Planet.cs" />
+    <Compile Include="Models\Monster.cs" />
+    <Compile Include="Models\Position.cs" />
+    <Compile Include="ObjectsEnum.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\Interfaces\IPositionGenerator.cs" />
+    <Compile Include="Services\PositionGenerator.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
