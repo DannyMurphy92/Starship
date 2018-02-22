@@ -6,6 +6,7 @@ namespace Starship.Cli
     {
         public static void Main(string[] args)
         {
+            CoreClient.CreateUniverseFile();
             Console.ReadLine();
         }
     }
