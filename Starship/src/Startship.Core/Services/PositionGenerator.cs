@@ -6,21 +6,26 @@ namespace Starship.Core.Services
 {
     public class PositionGenerator : IPositionGenerator
     {
+        private IRandomGenerator randomGenerator;
+        
+        public PositionGenerator(IRandomGenerator randomGenerator)
+        {
+            this.randomGenerator = randomGenerator;
+        }
+
         public Position Generate()
         {
-            var rdn = new Random();
-
             return new Position()
             {
-                XCoor = GenerateCoordinate(rdn, 0, 999),
-                YCoor = GenerateCoordinate(rdn, 0, 999),
-                ZCoor = GenerateCoordinate(rdn, 0, 999),
+                XCoor = GenerateCoordinate(0, 999),
+                YCoor = GenerateCoordinate(0, 999),
+                ZCoor = GenerateCoordinate(0, 999),
             };
         }
 
-        private double GenerateCoordinate(Random rdn, double min, double max)
+        private double GenerateCoordinate(double min, double max)
         {
-            return rdn.NextDouble() * (max - min) + min;
+            return randomGenerator.GenerateDouble() * (max - min) + min;
         }
     }
 }

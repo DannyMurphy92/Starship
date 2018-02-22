@@ -13,6 +13,9 @@ namespace Starship.Core.Installer
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
             container.Register(
+                Component.For<IRandomGenerator>()
+                    .ImplementedBy<RandomGenerator>());
+            container.Register(
                 Component.For<IPositionGenerator>()
                     .ImplementedBy<PositionGenerator>());
             container.Register(

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoFixture;
+﻿using AutoFixture;
 using AutoFixture.AutoMoq;
 using Moq;
 using NUnit.Framework;
@@ -13,6 +8,7 @@ using Starship.Core.Services.Interfaces;
 
 namespace Starship.Core.Tests.Factories
 {
+    [TestFixture]
     public class PlanetFactoryTestFixture 
     {
         private IFixture fixture;
