@@ -16,7 +16,7 @@ namespace Starship.Core.Models
 
         public override string ToString()
         {
-            return $"Monster: {Position.X} {Position.Y} {Position.Z}";
+            return $"{ObjectsEnum.Monster}, {Position.X}, {Position.Y}, {Position.Z}";
         }
     }
 }

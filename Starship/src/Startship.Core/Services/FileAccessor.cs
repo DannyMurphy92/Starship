@@ -12,6 +12,10 @@ namespace Starship.Core.Services
         {
             try
             {
+                if (File.Exists(@"C:\test.txt"))
+                {
+                    File.Delete(@"C:\test.txt");
+                }
                 using (StreamWriter w = File.AppendText(filePath))
                 {
                     foreach (var sObject in spaceObjects)
@@ -25,6 +29,11 @@ namespace Starship.Core.Services
                 Console.WriteLine(e);
                 throw;
             }
+        }
+
+        public IEnumerable<BaseSpaceObject> ReadSpaceObjectFromFile(string filePath)
+        {
+            throw new NotImplementedException();
         }
     }
 }

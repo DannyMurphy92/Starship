@@ -12,17 +12,18 @@ namespace Starship.Cli
         public static void CreateUniverseFile()
         {
             var container = new WindsorContainer();
+            string file = "Useriver.txt";
 
             container.Install(new CoreInstaller());
 
             var batchFac = container.Resolve<IBatchSpaceObjectFactory>();
 
-            var x = batchFac.Generate(500).ToList();
+            var objects = batchFac.Generate(1500).ToList();
 
             var fAccessor = container.Resolve<IFileAccessor>();
-            fAccessor.WriteSpaceObjectsToFile(x, "Universe.txt");
+            fAccessor.WriteSpaceObjectsToFile(objects, file);
 
-            Console.WriteLine(x.Count);
+            Console.WriteLine(objects.Count);
         }
     }
 }

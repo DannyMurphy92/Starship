@@ -17,7 +17,7 @@ namespace Starship.Core.Models
         
         public override string ToString()
         {
-            return $"Planet: {Position.X} {Position.Y} {Position.Z} {IsHabitable} {Area}";
+            return $"{ObjectsEnum.Planet}, {Position.X}, {Position.Y}, {Position.Z}, {IsHabitable}, {Area}";
         }
     }
 }

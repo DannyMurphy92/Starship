@@ -26,7 +26,7 @@ namespace Starship.Core.Tests.Models
         {
             // Arrange
             var subject = fixture.Create<Monster>();
-            var expected = $"Monster: {subject.Position.X} {subject.Position.Y} {subject.Position.Z}";
+            var expected = $"{ObjectsEnum.Monster}, {subject.Position.X}, {subject.Position.Y}, {subject.Position.Z}";
 
             // Act
             var result = subject.ToString();

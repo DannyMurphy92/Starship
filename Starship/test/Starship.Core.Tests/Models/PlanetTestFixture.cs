@@ -26,7 +26,7 @@ namespace Starship.Core.Tests.Models
         {
             // Arrange
             var subject = fixture.Create<Planet>();
-            var expected = $"Planet: {subject.Position.X} {subject.Position.Y} {subject.Position.Z} {subject.IsHabitable} {subject.Area}";
+            var expected = $"{ObjectsEnum.Planet}, {subject.Position.X}, {subject.Position.Y}, {subject.Position.Z}, {subject.IsHabitable}, {subject.Area}";
 
             // Act
             var result = subject.ToString();

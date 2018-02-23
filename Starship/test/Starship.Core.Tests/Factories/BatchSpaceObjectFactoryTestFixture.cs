@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoFixture;
 using AutoFixture.AutoMoq;
+using Microsoft.Practices.ObjectBuilder2;
 using Moq;
 using NUnit.Framework.Internal;
 using NUnit.Framework;
@@ -40,6 +41,8 @@ namespace Starship.Core.Tests.Services
         {
             planetFactoryMock.Setup(p => p.Create())
                 .Returns(fixture.Create<Planet>());
+            planetFactoryMock.Setup(p => p.CreateFromString(It.IsAny<string>()))
+                .Returns(fixture.Create<Planet>());
             monsterFactoryMock.Setup(p => p.Create())
                 .Returns(fixture.Create<Monster>());
         }
@@ -65,8 +68,7 @@ namespace Starship.Core.Tests.Services
             // Assert
             Assert.AreEqual(amount, result.Count());
         }
-
-
+        
         [Test]
         public void Generate_WhenInvoked_CreatesRandomBoolSuppliedAmountOfTimes()
         {
@@ -115,6 +117,21 @@ namespace Starship.Core.Tests.Services
 
             // Assert
             monsterFactoryMock.Verify(p => p.Create(), Times.Exactly(amount));
+        }
+
+        [Test]
+        public void GenerateFromStrings_WhenInvoked_ReturnsTheCorrectNumberOfObjects()
+        {
+            // Arrange
+            var planets = fixture.CreateMany<Planet>();
+            var planetStrings = planets.Select(p => p.ToString()).ToList();
+            var subject = fixture.Create<BatchSpaceObjectFactory>();
+
+            // Act
+            var result = subject.GenerateFromStrings(planetStrings).ToList();
+
+            // Assert
+            Assert.AreEqual(planetStrings.Count(), result.Count);
         }
     }
 }
