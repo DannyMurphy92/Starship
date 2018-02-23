@@ -8,5 +8,7 @@ namespace Starship.Core.Factories.Interfaces
         IEnumerable<BaseSpaceObject> Generate(int amount);
 
         IEnumerable<BaseSpaceObject> GenerateFromStrings(IEnumerable<string> input);
+
+        BaseSpaceObject GenerateFromString(string input);
     }
 }

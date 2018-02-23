@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace Starship.Cli
 {
@@ -6,7 +7,7 @@ namespace Starship.Cli
     {
         public static void Main(string[] args)
         {
-            CoreClient.CreateUniverseFile();
+            CoreClient.CreateUniverseFileAsync().Wait();
             Console.ReadLine();
         }
     }

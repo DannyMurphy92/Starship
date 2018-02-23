@@ -44,24 +44,35 @@ namespace Starship.Core.Factories
             var result = new List<BaseSpaceObject>();
             foreach (var inp in input)
             {
-                try
+                var res = GenerateFromString(inp);
+                if (res != null)
                 {
-                    if (inp.StartsWith(ObjectsEnum.Planet.ToString()))
-                    {
-                        result.Add(planetFactory.CreateFromString(inp));
-                    }
-                    else if(inp.StartsWith(ObjectsEnum.Monster.ToString()))
-                    {
-                        result.Add(monsterFactory.CreateFromString(inp));
-                    }
-                }
-                catch
-                {
-                    Console.WriteLine($"Error parsing space object {inp}");
+                    result.Add(res);
                 }
             }
 
             return result;
+        }
+
+        public BaseSpaceObject GenerateFromString(string input)
+        {
+            try
+            {
+                if (input.StartsWith(ObjectsEnum.Planet.ToString()))
+                {
+                    return planetFactory.CreateFromString(input);
+                }
+                if (input.StartsWith(ObjectsEnum.Monster.ToString()))
+                {
+                    return monsterFactory.CreateFromString(input);
+                }
+            }
+            catch
+            {
+                Console.WriteLine($"Error parsing space object {input}");
+            }
+
+            return null;
         }
     }
 }

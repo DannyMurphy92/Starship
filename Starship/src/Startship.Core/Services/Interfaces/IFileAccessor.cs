@@ -9,8 +9,8 @@ namespace Starship.Core.Services.Interfaces
 {
     public interface IFileAccessor
     {
-        void WriteSpaceObjectsToFile(IEnumerable<BaseSpaceObject> spaceObjects, string filePath);
+        Task WriteSpaceObjectsToFileAsync(IEnumerable<BaseSpaceObject> spaceObjects, string filePath);
 
-        IEnumerable<BaseSpaceObject> ReadSpaceObjectFromFile(string filePath);
+        Task<IEnumerable<BaseSpaceObject>> ReadSpaceObjectFromFileAsync(string filePath);
     }
 }

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
+using Starship.Core.Factories.Interfaces;
 using Starship.Core.Models.Abstracts;
 using Starship.Core.Services.Interfaces;
 
@@ -8,7 +10,14 @@ namespace Starship.Core.Services
 {
     public class FileAccessor : IFileAccessor
     {
-        public void WriteSpaceObjectsToFile(IEnumerable<BaseSpaceObject> spaceObjects, string filePath)
+        private readonly IBatchSpaceObjectFactory batchSpaceObjFactory;
+
+        public FileAccessor(IBatchSpaceObjectFactory batchSpaceObjFactory)
+        {
+            this.batchSpaceObjFactory = batchSpaceObjFactory;
+        }
+
+        public async Task WriteSpaceObjectsToFileAsync(IEnumerable<BaseSpaceObject> spaceObjects, string filePath)
         {
             try
             {
@@ -20,7 +29,7 @@ namespace Starship.Core.Services
                 {
                     foreach (var sObject in spaceObjects)
                     {
-                        w.WriteLine(sObject.ToString());
+                        await w.WriteLineAsync(sObject.ToString());
                     }
                 }
             }
@@ -31,9 +40,18 @@ namespace Starship.Core.Services
             }
         }
 
-        public IEnumerable<BaseSpaceObject> ReadSpaceObjectFromFile(string filePath)
+        public async Task<IEnumerable<BaseSpaceObject>> ReadSpaceObjectFromFileAsync(string filePath)
         {
-            throw new NotImplementedException();
+            var result = new List<BaseSpaceObject>();
+            using (StreamReader r = new StreamReader(filePath))
+            {
+                var line = string.Empty;
+                while ((line = await r.ReadLineAsync()) != null)
+                {
+                    result.Add(batchSpaceObjFactory.GenerateFromString(line));
+                }
+                return result;
+            }
         }
     }
 }
