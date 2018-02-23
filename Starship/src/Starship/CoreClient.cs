@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Castle.Windsor;
 using Starship.Core.Factories.Interfaces;
 using Starship.Core.Installer;
+using Starship.Core.Services.Interfaces;
 
 namespace Starship.Cli
 {
@@ -20,6 +18,9 @@ namespace Starship.Cli
             var batchFac = container.Resolve<IBatchSpaceObjectFactory>();
 
             var x = batchFac.Generate(500).ToList();
+
+            var fAccessor = container.Resolve<IFileAccessor>();
+            fAccessor.WriteSpaceObjectsToFile(x, "Universe.txt");
 
             Console.WriteLine(x.Count);
         }

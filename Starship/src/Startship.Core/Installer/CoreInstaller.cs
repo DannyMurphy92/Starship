@@ -27,6 +27,10 @@ namespace Starship.Core.Installer
             container.Register(
                 Component.For<IBatchSpaceObjectFactory>()
                     .ImplementedBy<BatchSpaceObjectFactory>());
+            container.Register(
+                Component.For<IFileAccessor>()
+                    .ImplementedBy<FileAccessor>());
+
         }
     }
 }
