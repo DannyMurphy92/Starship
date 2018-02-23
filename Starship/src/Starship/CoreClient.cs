@@ -12,7 +12,7 @@ namespace Starship.Cli
         public static void CreateUniverseFile()
         {
             var container = new WindsorContainer();
-            string file = "Useriver.txt";
+            string file = "Universe.txt";
 
             container.Install(new CoreInstaller());
 

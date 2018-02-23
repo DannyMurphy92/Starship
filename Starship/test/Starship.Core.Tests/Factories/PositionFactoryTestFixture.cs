@@ -2,6 +2,9 @@
 using AutoFixture.AutoMoq;
 using Moq;
 using NUnit.Framework;
+using Starship.Core.Factories;
+using Starship.Core.Factories.Interfaces;
+using Starship.Core.Models;
 using Starship.Core.Services;
 using Starship.Core.Services.Interfaces;
 
@@ -12,14 +15,14 @@ namespace Starship.Core.Tests.Factories
     {
         private IFixture fixture;
 
-        private Mock<IRandomGenerator> rdnGeneratorMock;
+        private Mock<ICoordinateFactory> coorFactoryMock;
 
         [OneTimeSetUp]
         public void OneTimeSetup()
         {
             fixture = new Fixture().Customize(new AutoConfiguredMoqCustomization());
 
-            rdnGeneratorMock = fixture.Freeze<Mock<IRandomGenerator>>();
+            coorFactoryMock = fixture.Freeze<Mock<ICoordinateFactory>>();
         }
 
         [Test]
@@ -32,18 +35,18 @@ namespace Starship.Core.Tests.Factories
             subject.Create();
 
             // Assert
-            rdnGeneratorMock.Verify(r => r.GenerateDouble(), Times.Exactly(3));
+            coorFactoryMock.Verify(r => r.Create(), Times.Exactly(3));
         }
 
         [Test]
         public void Generate_WhenInvoked_UsesDifferentResultForEachCoordinate()
         {
             // Arrange
-            var res1 = fixture.Create<double>();
-            var res2 = fixture.Create<double>();
-            var res3 = fixture.Create<double>();
+            var res1 = fixture.Create<Coordinate>();
+            var res2 = fixture.Create<Coordinate>();
+            var res3 = fixture.Create<Coordinate>();
 
-            rdnGeneratorMock.SetupSequence(r => r.GenerateDouble())
+            coorFactoryMock.SetupSequence(r => r.Create())
                 .Returns(res1)
                 .Returns(res2)
                 .Returns(res3);
@@ -54,9 +57,9 @@ namespace Starship.Core.Tests.Factories
             var result = subject.Create();
 
             // Assert
-            Assert.AreEqual(res1*999, result.X);
-            Assert.AreEqual(res2*999, result.Y);
-            Assert.AreEqual(res3*999, result.Z);
+            Assert.AreEqual(res1, result.X);
+            Assert.AreEqual(res2, result.Y);
+            Assert.AreEqual(res3, result.Z);
         }
     }
 }

@@ -1,18 +1,25 @@
-﻿namespace Starship.Core.Models
+﻿using Starship.Core.Models.Abstracts;
+
+namespace Starship.Core.Models
 {
-    public class Position
+    public class Position  : BaseStringSerialiserObject
     {
-        public Position(double x, double y, double z)
+        public Position(Coordinate x, Coordinate y, Coordinate z)
         {
             X = x;
             Y = y;
             Z = z;
         }
 
-        public double X { get; }
+        public Coordinate X { get; }
 
-        public double Y { get; }
+        public Coordinate Y { get; }
 
-        public double Z { get; }
+        public Coordinate Z { get; }
+
+        public override string ToString()
+        {
+            return $"{X.ToString()}, {Y.ToString()}, {Z.ToString()}";
+        }
     }
 }

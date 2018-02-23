@@ -16,9 +16,14 @@ namespace Starship.Core.Services
             return rdn.NextDouble();
         }
 
-        public int GenerateInt(int max, int min = 0)
+        public int GenerateInt(int max)
         {
-            return rdn.Next(max, min);
+            return rdn.Next(max);
+        }
+        
+        public int GenerateInt(int min, int max)
+        {
+            return rdn.Next(min, max);
         }
 
         public bool GenerateBool(int probabilityTrue)

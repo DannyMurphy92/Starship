@@ -5,7 +5,6 @@ using NUnit.Framework;
 using Starship.Core.Factories;
 using Starship.Core.Factories.Interfaces;
 using Starship.Core.Models;
-using Starship.Core.Services.Interfaces;
 
 namespace Starship.Core.Tests.Factories
 {
@@ -16,6 +15,8 @@ namespace Starship.Core.Tests.Factories
 
         private Mock<IPositionFactory> positionGenMock;
 
+        private Monster monster;
+
         [OneTimeSetUp]
         public void OneTimeSetup()
         {
@@ -23,7 +24,25 @@ namespace Starship.Core.Tests.Factories
 
             positionGenMock = fixture.Freeze<Mock<IPositionFactory>>();
         }
-        
+
+        [SetUp]
+        public void Setup()
+        {
+            monster = fixture.Create<Monster>();
+
+            positionGenMock.Setup(p => p.Create())
+                .Returns(fixture.Create<Position>());
+
+            positionGenMock.Setup(p => p.CreateFromString(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
+                .Returns(() => monster.Position);
+        }
+
+        [TearDown]
+        public void Teardown()
+        {
+            positionGenMock.Reset();
+        }
+
         [Test]
         public void Create_WhenInvoked_ReturnsAMonsterObject()
         {
@@ -69,74 +88,16 @@ namespace Starship.Core.Tests.Factories
         public void CreateFromString_WhenIsValidMonsterString_ReturnsMatchingMonsterObject()
         {
             // Arrange
-            var monster = fixture.Create<Monster>();
-            var planetString = monster.ToString();
+            var monsterString = monster.ToString();
             var subject = fixture.Create<MonsterFactory>();
 
             // Act
-            var result = subject.CreateFromString(planetString);
+            var result = subject.CreateFromString(monsterString);
 
             // Assert
             var pPos = monster.Position;
             var rPos = result.Position;
             Assert.IsTrue(pPos.X == rPos.X && pPos.Y == rPos.Y && pPos.Z == rPos.Z);
-        }
-
-        [Test]
-        public void CreateFromString_WhenXDoesNotParseToDouble_ThrowsException()
-        {
-            // Arrange
-            var monster = fixture.Create<Monster>();
-            var monsterString = monster.ToString();
-            var monsterArgs = monsterString.Split(',');
-            monsterArgs[1] = "ffff";
-            monsterString = string.Join(",", monsterArgs);
-            var subject = fixture.Create<MonsterFactory>();
-
-            // Act
-            TestDelegate act = () => subject.CreateFromString(monsterString);
-
-            // Assert 
-            Assert.That(act, Throws.ArgumentException
-                .With.Property("Message").EqualTo("Input is not a valid argument"));
-        }
-
-        [Test]
-        public void CreateFromString_WhenYDoesNotParseToDouble_ThrowsException()
-        {
-            // Arrange
-            var monster = fixture.Create<Monster>();
-            var monsterString = monster.ToString();
-            var monsterArgs = monsterString.Split(',');
-            monsterArgs[2] = "ffff";
-            monsterString = string.Join(",", monsterArgs);
-            var subject = fixture.Create<MonsterFactory>();
-
-            // Act
-            TestDelegate act = () => subject.CreateFromString(monsterString);
-
-            // Assert 
-            Assert.That(act, Throws.ArgumentException
-                .With.Property("Message").EqualTo("Input is not a valid argument"));
-        }
-
-        [Test]
-        public void CreateFromString_WhenZDoesNotParseToDouble_ThrowsException()
-        {
-            // Arrange
-            var monster = fixture.Create<Monster>();
-            var monsterString = monster.ToString();
-            var monsterArgs = monsterString.Split(',');
-            monsterArgs[3] = "ffff";
-            monsterString = string.Join(",", monsterArgs);
-            var subject = fixture.Create<MonsterFactory>();
-
-            // Act
-            TestDelegate act = () => subject.CreateFromString(monsterString);
-
-            // Assert 
-            Assert.That(act, Throws.ArgumentException
-                .With.Property("Message").EqualTo("Input is not a valid argument"));
         }
     }
 }

@@ -4,7 +4,9 @@
     {
         double GenerateDouble();
 
-        int GenerateInt(int max, int min = 0);
+        int GenerateInt(int max);
+
+        int GenerateInt(int min, int max);
 
         bool GenerateBool(int probabilityTrue);
     }

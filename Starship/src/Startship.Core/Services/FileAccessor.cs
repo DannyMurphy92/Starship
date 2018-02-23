@@ -12,9 +12,9 @@ namespace Starship.Core.Services
         {
             try
             {
-                if (File.Exists(@"C:\test.txt"))
+                if (File.Exists(filePath))
                 {
-                    File.Delete(@"C:\test.txt");
+                    File.Delete(filePath);
                 }
                 using (StreamWriter w = File.AppendText(filePath))
                 {

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoFixture;
+﻿using AutoFixture;
 using AutoFixture.AutoMoq;
 using NUnit.Framework;
 using Starship.Core.Models;
@@ -26,7 +21,7 @@ namespace Starship.Core.Tests.Models
         {
             // Arrange
             var subject = fixture.Create<Planet>();
-            var expected = $"{ObjectsEnum.Planet}, {subject.Position.X}, {subject.Position.Y}, {subject.Position.Z}, {subject.IsHabitable}, {subject.Area}";
+            var expected = $"{ObjectsEnum.Planet}, {subject.Position.ToString()}, {subject.IsHabitable}, {subject.Area}";
 
             // Act
             var result = subject.ToString();

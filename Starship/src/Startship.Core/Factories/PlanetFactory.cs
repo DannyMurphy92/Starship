@@ -26,19 +26,16 @@ namespace Starship.Core.Factories
         //Assumption made that string input will always be in same format, comma seperated string
         public Planet CreateFromString(string input)
         {
-            var valid = true;
             var arguments = input.Split(',');
 
             if (arguments.Length == 6)
             {
-                valid &= double.TryParse(arguments[1], out var x);
-                valid &= double.TryParse(arguments[2], out var y);
-                valid &= double.TryParse(arguments[3], out var z);
+                var valid = true;
+                var position = positionFactory.CreateFromString(arguments[1], arguments[2], arguments[3]);
                 valid &= bool.TryParse(arguments[4], out var isHabitable);
                 valid &= double.TryParse(arguments[5], out var area);
                 if (valid)
                 {
-                    var position = new Position(x, y, z);
                     return new Planet(position, isHabitable, area);
                 }
             }

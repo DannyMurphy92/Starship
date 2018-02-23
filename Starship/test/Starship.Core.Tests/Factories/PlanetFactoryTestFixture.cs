@@ -18,6 +18,9 @@ namespace Starship.Core.Tests.Factories
         private Mock<IPositionFactory> positionGenMock;
         private Mock<IRandomGenerator> randomGenerator;
 
+
+        private Planet planet;
+
         [OneTimeSetUp]
         public void OneTimeSetup()
         {
@@ -27,18 +30,23 @@ namespace Starship.Core.Tests.Factories
             randomGenerator = fixture.Freeze<Mock<IRandomGenerator>>();
         }
 
+        [SetUp]
+        public void Setup()
+        {
+            planet = fixture.Create<Planet>();
+
+            positionGenMock.Setup(p => p.Create())
+                .Returns(fixture.Create<Position>());
+
+            positionGenMock.Setup(p => p.CreateFromString(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
+                .Returns(() => planet.Position);
+        }
+
         [TearDown]
         public void Teardown()
         {
             positionGenMock.Reset();
             randomGenerator.Reset();
-        }
-
-        [SetUp]
-        public void Setup()
-        {
-            positionGenMock.Setup(p => p.Create())
-                .Returns(fixture.Create<Position>());
         }
 
         [Test]
@@ -121,7 +129,6 @@ namespace Starship.Core.Tests.Factories
         public void CreateFromString_WhenIsValidPlanetString_ReturnsMatchingMonsterObject()
         {
             // Arrange
-            var planet = fixture.Create<Planet>();
             var planetString = planet.ToString();
             var subject = fixture.Create<PlanetFactory>();
 
@@ -134,63 +141,6 @@ namespace Starship.Core.Tests.Factories
             Assert.AreEqual(planet.Area, result.Area);
             Assert.AreEqual(planet.IsHabitable, result.IsHabitable);
             Assert.IsTrue(pPos.X == rPos.X && pPos.Y == rPos.Y && pPos.Z == rPos.Z);
-        }
-
-        [Test]
-        public void CreateFromString_WhenXDoesNotParseToDouble_ThrowsException()
-        {
-            // Arrange
-            var planet = fixture.Create<Planet>();
-            var planetString = planet.ToString();
-            var planetArgs = planetString.Split(',');
-            planetArgs[1] = "ffff";
-            planetString = string.Join(",", planetArgs);
-            var subject = fixture.Create<PlanetFactory>();
-
-            // Act
-            TestDelegate act = () => subject.CreateFromString(planetString);
-
-            // Assert 
-            Assert.That(act, Throws.ArgumentException
-                .With.Property("Message").EqualTo("Input is not a valid argument"));
-        }
-
-        [Test]
-        public void CreateFromString_WhenYDoesNotParseToDouble_ThrowsException()
-        {
-            // Arrange
-            var planet = fixture.Create<Planet>();
-            var planetString = planet.ToString();
-            var planetArgs = planetString.Split(',');
-            planetArgs[2] = "ffff";
-            planetString = string.Join(",", planetArgs);
-            var subject = fixture.Create<PlanetFactory>();
-
-            // Act
-            TestDelegate act = () => subject.CreateFromString(planetString);
-
-            // Assert 
-            Assert.That(act, Throws.ArgumentException
-                .With.Property("Message").EqualTo("Input is not a valid argument"));
-        }
-
-        [Test]
-        public void CreateFromString_WhenZDoesNotParseToDouble_ThrowsException()
-        {
-            // Arrange
-            var planet = fixture.Create<Planet>();
-            var planetString = planet.ToString();
-            var planetArgs = planetString.Split(',');
-            planetArgs[3] = "ffff";
-            planetString = string.Join(",", planetArgs);
-            var subject = fixture.Create<PlanetFactory>();
-
-            // Act
-            TestDelegate act = () => subject.CreateFromString(planetString);
-
-            // Assert 
-            Assert.That(act, Throws.ArgumentException
-                .With.Property("Message").EqualTo("Input is not a valid argument"));
         }
 
         [Test]

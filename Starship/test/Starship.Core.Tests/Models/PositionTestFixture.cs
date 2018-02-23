@@ -11,7 +11,7 @@ using Starship.Core.Models;
 namespace Starship.Core.Tests.Models
 {
     [TestFixture]
-    public class MonsterTestFixture
+    public class PositionTestFixture
     {
         private IFixture fixture;
 
@@ -22,11 +22,11 @@ namespace Starship.Core.Tests.Models
         }
 
         [Test]
-        public void ToString_WhenInvoked_ReturnsObjectAsFormattedString()
+        public void ToString_WhenInvoked_ReturnsThePositionAsACorrectString()
         {
             // Arrange
-            var subject = fixture.Create<Monster>();
-            var expected = $"{ObjectsEnum.Monster}, {subject.Position.ToString()}";
+            var subject = fixture.Create<Position>();
+            var expected = $"{subject.X.ToString()}, {subject.Y.ToString()}, {subject.Z.ToString()}";
 
             // Act
             var result = subject.ToString();

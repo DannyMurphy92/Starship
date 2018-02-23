@@ -1,30 +1,32 @@
-﻿using System;
-using Starship.Core.Factories.Interfaces;
+﻿using Starship.Core.Factories.Interfaces;
 using Starship.Core.Models;
 using Starship.Core.Services.Interfaces;
 
-namespace Starship.Core.Services
+namespace Starship.Core.Factories
 {
     public class PositionFactory : IPositionFactory
     {
-        private readonly IRandomGenerator randomGenerator;
+        private readonly ICoordinateFactory coordinateFactory;
         
-        public PositionFactory(IRandomGenerator randomGenerator)
+        public PositionFactory(ICoordinateFactory coordinateFactory)
         {
-            this.randomGenerator = randomGenerator;
+            this.coordinateFactory = coordinateFactory;
         }
 
         public Position Create()
         {
             return new Position(
-                GenerateCoordinate(0, 999),
-                GenerateCoordinate(0, 999),
-                GenerateCoordinate(0, 999));
+                coordinateFactory.Create(),
+                coordinateFactory.Create(),
+                coordinateFactory.Create());
         }
 
-        private double GenerateCoordinate(double min, double max)
+        public Position CreateFromString(string x, string y, string z)
         {
-            return randomGenerator.GenerateDouble() * (max - min) + min;
+            return new Position(
+                coordinateFactory.CreateFromString(x),
+                coordinateFactory.CreateFromString(y),
+                coordinateFactory.CreateFromString(z));
         }
     }
 }

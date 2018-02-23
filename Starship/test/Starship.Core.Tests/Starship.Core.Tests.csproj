@@ -105,11 +105,13 @@
   <ItemGroup>
     <Compile Include="Factories\MonsterFactoryTestFixture.cs" />
     <Compile Include="Factories\PlanetFactoryTestFixture.cs" />
+    <Compile Include="Models\CoordinateTestFixture.cs" />
     <Compile Include="Models\MonsterTestFixture.cs" />
     <Compile Include="Models\PlanetTestFixture.cs" />
+    <Compile Include="Models\PositionTestFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Factories\BatchSpaceObjectFactoryTestFixture.cs" />
-    <Compile Include="Factories\CoordinateGenerator.cs" />
+    <Compile Include="Factories\CoordinateFactoryTestFixture.cs" />
     <Compile Include="Services\FileWriterTestFixture.cs" />
     <Compile Include="Factories\PositionFactoryTestFixture.cs" />
   </ItemGroup>

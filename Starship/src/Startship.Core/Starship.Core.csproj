@@ -57,7 +57,8 @@
     <Compile Include="Factories\PlanetFactory.cs" />
     <Compile Include="Installer\CoreInstaller.cs" />
     <Compile Include="Models\Abstracts\BaseSpaceObject.cs" />
-    <Compile Include="Models\Coordnate.cs" />
+    <Compile Include="Models\Abstracts\BaseStringSerialiserObject.cs" />
+    <Compile Include="Models\Coordinate.cs" />
     <Compile Include="Models\Planet.cs" />
     <Compile Include="Models\Monster.cs" />
     <Compile Include="Models\Position.cs" />

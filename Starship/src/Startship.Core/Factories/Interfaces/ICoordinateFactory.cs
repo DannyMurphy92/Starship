@@ -4,6 +4,8 @@ namespace Starship.Core.Factories.Interfaces
 {
     public interface ICoordinateFactory
     {
-        Coordnate Create();
+        Coordinate Create();
+
+        Coordinate CreateFromString(string input);
     }
 }
