@@ -18,5 +18,25 @@ namespace Starship.Core.Factories
         {
             return new Monster(positionGenerator.Generate());
         }
+
+        //Assumption made that string input will always be in same format, comma seperated string
+        public Monster CreateFromString(string input)
+        {
+            var valid = true;
+            var arguments = input.Split(',');
+
+            if (arguments.Length == 4)
+            {
+                valid &= double.TryParse(arguments[1], out var x);
+                valid &= double.TryParse(arguments[2], out var y);
+                valid &= double.TryParse(arguments[3], out var z);
+                if (valid)
+                {
+                    var position = new Position(x, y, z);
+                    return new Monster(position);
+                }
+            }
+            throw new ArgumentException("Input is not a valid argument");
+        }
     }
 }

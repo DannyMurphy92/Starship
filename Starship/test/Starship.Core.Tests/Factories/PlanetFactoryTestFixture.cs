@@ -105,7 +105,7 @@ namespace Starship.Core.Tests.Factories
         public void CreateFromString_WhenNotPassedCommaListOf6Items_ThrowsException()
         {
             // Arrange
-            var invalidStr = "This is not a valid monster string";
+            var invalidStr = "This is not a valid planet string";
             var subject = fixture.Create<PlanetFactory>();
 
             // Act

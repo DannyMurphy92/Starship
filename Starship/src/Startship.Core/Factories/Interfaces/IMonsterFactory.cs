@@ -6,5 +6,6 @@ namespace Starship.Core.Factories.Interfaces
     {
         Monster Create();
 
+        Monster CreateFromString(string input);
     }
 }
