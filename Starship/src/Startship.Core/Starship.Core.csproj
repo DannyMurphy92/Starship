@@ -57,6 +57,7 @@
     <Compile Include="Factories\PlanetFactory.cs" />
     <Compile Include="Installer\CoreInstaller.cs" />
     <Compile Include="Models\Abstracts\BaseSpaceObject.cs" />
+    <Compile Include="Models\Coordnate.cs" />
     <Compile Include="Models\Planet.cs" />
     <Compile Include="Models\Monster.cs" />
     <Compile Include="Models\Position.cs" />
@@ -64,12 +65,14 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Factories\BatchSpaceObjectFactory.cs" />
     <Compile Include="Factories\Interfaces\IBatchSpaceObjectFactory.cs" />
+    <Compile Include="Factories\CoordinateFactory.cs" />
     <Compile Include="Services\FileAccessor.cs" />
+    <Compile Include="Factories\Interfaces\ICoordinateFactory.cs" />
     <Compile Include="Services\Interfaces\IFileAccessor.cs" />
-    <Compile Include="Services\Interfaces\IPositionGenerator.cs" />
+    <Compile Include="Factories\Interfaces\IPositionFactory.cs" />
     <Compile Include="Services\Interfaces\IRandomGenerator.cs" />
     <Compile Include="Services\RandomGenerator.cs" />
-    <Compile Include="Services\PositionGenerator.cs" />
+    <Compile Include="Factories\PositionFactory.cs" />
     <Compile Include="Settings.cs" />
   </ItemGroup>
   <ItemGroup>

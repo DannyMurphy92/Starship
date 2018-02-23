@@ -1,19 +1,20 @@
 ﻿using System;
+using Starship.Core.Factories.Interfaces;
 using Starship.Core.Models;
 using Starship.Core.Services.Interfaces;
 
 namespace Starship.Core.Services
 {
-    public class PositionGenerator : IPositionGenerator
+    public class PositionFactory : IPositionFactory
     {
         private readonly IRandomGenerator randomGenerator;
         
-        public PositionGenerator(IRandomGenerator randomGenerator)
+        public PositionFactory(IRandomGenerator randomGenerator)
         {
             this.randomGenerator = randomGenerator;
         }
 
-        public Position Generate()
+        public Position Create()
         {
             return new Position(
                 GenerateCoordinate(0, 999),

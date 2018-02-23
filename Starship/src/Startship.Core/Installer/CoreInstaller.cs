@@ -16,8 +16,8 @@ namespace Starship.Core.Installer
                 Component.For<IRandomGenerator>()
                     .ImplementedBy<RandomGenerator>());
             container.Register(
-                Component.For<IPositionGenerator>()
-                    .ImplementedBy<PositionGenerator>());
+                Component.For<IPositionFactory>()
+                    .ImplementedBy<PositionFactory>());
             container.Register(
                 Component.For<IMonsterFactory>()
                     .ImplementedBy<MonsterFactory>());
@@ -30,6 +30,9 @@ namespace Starship.Core.Installer
             container.Register(
                 Component.For<IFileAccessor>()
                     .ImplementedBy<FileAccessor>());
+            container.Register(
+                Component.For<ICoordinateFactory>()
+                    .ImplementedBy<CoordinateFactory>());
 
         }
     }

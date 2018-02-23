@@ -4,6 +4,7 @@ using AutoFixture.AutoMoq;
 using Moq;
 using NUnit.Framework;
 using Starship.Core.Factories;
+using Starship.Core.Factories.Interfaces;
 using Starship.Core.Models;
 using Starship.Core.Services.Interfaces;
 
@@ -14,7 +15,7 @@ namespace Starship.Core.Tests.Factories
     {
         private IFixture fixture;
 
-        private Mock<IPositionGenerator> positionGenMock;
+        private Mock<IPositionFactory> positionGenMock;
         private Mock<IRandomGenerator> randomGenerator;
 
         [OneTimeSetUp]
@@ -22,7 +23,7 @@ namespace Starship.Core.Tests.Factories
         {
             fixture = new Fixture().Customize(new AutoConfiguredMoqCustomization());
 
-            positionGenMock = fixture.Freeze<Mock<IPositionGenerator>>();
+            positionGenMock = fixture.Freeze<Mock<IPositionFactory>>();
             randomGenerator = fixture.Freeze<Mock<IRandomGenerator>>();
         }
 
@@ -36,7 +37,7 @@ namespace Starship.Core.Tests.Factories
         [SetUp]
         public void Setup()
         {
-            positionGenMock.Setup(p => p.Generate())
+            positionGenMock.Setup(p => p.Create())
                 .Returns(fixture.Create<Position>());
         }
 
@@ -63,7 +64,7 @@ namespace Starship.Core.Tests.Factories
             subject.Create();
 
             // Assert
-            positionGenMock.Verify(p => p.Generate(), Times.Once);
+            positionGenMock.Verify(p => p.Create(), Times.Once);
         }
 
         [Test]

@@ -7,12 +7,12 @@ namespace Starship.Core.Factories
 {
     public class PlanetFactory : IPlanetFactory
     {
-        private readonly IPositionGenerator positionGenerator;
+        private readonly IPositionFactory positionFactory;
         private readonly IRandomGenerator randomGenerator;
 
-        public PlanetFactory(IPositionGenerator positionGenerator, IRandomGenerator randomGenerator)
+        public PlanetFactory(IPositionFactory positionFactory, IRandomGenerator randomGenerator)
         {
-            this.positionGenerator = positionGenerator;
+            this.positionFactory = positionFactory;
             this.randomGenerator = randomGenerator;
         }
 
@@ -20,7 +20,7 @@ namespace Starship.Core.Factories
         {
             var isHabitable = randomGenerator.GenerateBool(40);
             var area = randomGenerator.GenerateDouble() * 100000000;
-            return new Planet(positionGenerator.Generate(), isHabitable, area);
+            return new Planet(positionFactory.Create(), isHabitable, area);
         }
 
         //Assumption made that string input will always be in same format, comma seperated string

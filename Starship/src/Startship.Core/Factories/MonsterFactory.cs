@@ -7,16 +7,16 @@ namespace Starship.Core.Factories
 {
     public class MonsterFactory : IMonsterFactory
     {
-        private readonly IPositionGenerator positionGenerator;
+        private readonly IPositionFactory positionFactory;
 
-        public MonsterFactory(IPositionGenerator positionGenerator)
+        public MonsterFactory(IPositionFactory positionFactory)
         {
-            this.positionGenerator = positionGenerator;
+            this.positionFactory = positionFactory;
         }
 
         public Monster Create()
         {
-            return new Monster(positionGenerator.Generate());
+            return new Monster(positionFactory.Create());
         }
 
         //Assumption made that string input will always be in same format, comma seperated string

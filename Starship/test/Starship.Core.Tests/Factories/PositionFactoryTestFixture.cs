@@ -1,19 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoFixture;
+﻿using AutoFixture;
 using AutoFixture.AutoMoq;
 using Moq;
 using NUnit.Framework;
 using Starship.Core.Services;
 using Starship.Core.Services.Interfaces;
 
-namespace Starship.Core.Tests.Services
+namespace Starship.Core.Tests.Factories
 {
     [TestFixture]
-    public class PositionGeneratorTestFixture
+    public class PositionFactoryTestFixture
     {
         private IFixture fixture;
 
@@ -27,15 +22,14 @@ namespace Starship.Core.Tests.Services
             rdnGeneratorMock = fixture.Freeze<Mock<IRandomGenerator>>();
         }
 
-
         [Test]
         public void Generate_WhenInvoked_CallsRandomDoubleGeneratorThreeTimes()
         {
             // Arrange
-            var subject = fixture.Create<PositionGenerator>();
+            var subject = fixture.Create<PositionFactory>();
 
             // Act
-            subject.Generate();
+            subject.Create();
 
             // Assert
             rdnGeneratorMock.Verify(r => r.GenerateDouble(), Times.Exactly(3));
@@ -54,10 +48,10 @@ namespace Starship.Core.Tests.Services
                 .Returns(res2)
                 .Returns(res3);
 
-            var subject = fixture.Create<PositionGenerator>();
+            var subject = fixture.Create<PositionFactory>();
 
             // Act
-            var result = subject.Generate();
+            var result = subject.Create();
 
             // Assert
             Assert.AreEqual(res1*999, result.X);

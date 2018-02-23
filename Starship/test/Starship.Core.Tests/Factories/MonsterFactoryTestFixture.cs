@@ -3,6 +3,7 @@ using AutoFixture.AutoMoq;
 using Moq;
 using NUnit.Framework;
 using Starship.Core.Factories;
+using Starship.Core.Factories.Interfaces;
 using Starship.Core.Models;
 using Starship.Core.Services.Interfaces;
 
@@ -13,14 +14,14 @@ namespace Starship.Core.Tests.Factories
     {
         private IFixture fixture;
 
-        private Mock<IPositionGenerator> positionGenMock;
+        private Mock<IPositionFactory> positionGenMock;
 
         [OneTimeSetUp]
         public void OneTimeSetup()
         {
             fixture = new Fixture().Customize(new AutoConfiguredMoqCustomization());
 
-            positionGenMock = fixture.Freeze<Mock<IPositionGenerator>>();
+            positionGenMock = fixture.Freeze<Mock<IPositionFactory>>();
         }
         
         [Test]
@@ -46,7 +47,7 @@ namespace Starship.Core.Tests.Factories
             subject.Create();
 
             // Assert
-            positionGenMock.Verify( p => p.Generate(), Times.Once);
+            positionGenMock.Verify( p => p.Create(), Times.Once);
         }
 
         [Test]
