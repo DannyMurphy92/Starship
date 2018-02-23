@@ -52,7 +52,7 @@ namespace Starship.Core.Factories
                     }
                     else if(inp.StartsWith(ObjectsEnum.Monster.ToString()))
                     {
-                        result.Add(planetFactory.CreateFromString(inp));
+                        result.Add(monsterFactory.CreateFromString(inp));
                     }
                 }
                 catch
