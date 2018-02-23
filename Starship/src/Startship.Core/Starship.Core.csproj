@@ -75,8 +75,10 @@
     <Compile Include="Factories\BatchSpaceObjectFactory.cs" />
     <Compile Include="Factories\Interfaces\IBatchSpaceObjectFactory.cs" />
     <Compile Include="Factories\CoordinateFactory.cs" />
+    <Compile Include="Services\ColonizationService.cs" />
     <Compile Include="Services\FileAccessor.cs" />
     <Compile Include="Factories\Interfaces\ICoordinateFactory.cs" />
+    <Compile Include="Services\Interfaces\IColonizationService.cs" />
     <Compile Include="Services\Interfaces\IFileAccessor.cs" />
     <Compile Include="Factories\Interfaces\IPositionFactory.cs" />
     <Compile Include="Services\Interfaces\IRandomGenerator.cs" />
