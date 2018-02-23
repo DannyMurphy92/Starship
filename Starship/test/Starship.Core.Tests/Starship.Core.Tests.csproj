@@ -114,6 +114,7 @@
     <Compile Include="Factories\CoordinateFactoryTestFixture.cs" />
     <Compile Include="Services\FileWriterTestFixture.cs" />
     <Compile Include="Factories\PositionFactoryTestFixture.cs" />
+    <Compile Include="Services\TravelServiceTestFixture.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
