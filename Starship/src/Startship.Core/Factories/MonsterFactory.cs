@@ -21,7 +21,6 @@ namespace Starship.Core.Factories
         //Assumption made that string input will always be in same format, comma seperated string
         public Monster CreateFromString(string input)
         {
-            var valid = true;
             var arguments = input.Split(',');
 
             if (arguments.Length == 4)

@@ -20,10 +20,9 @@ namespace Starship.Core.Services
             var conqueredPlanets = new List<Planet>();
 
             var travelTime = 10 * 60;
-
-
-            var x = travelService.FindNearestObject(startPosition, planets);
-            var destination = x;
+            
+            var destination = travelService.FindNearestObject(startPosition, planets);
+            planets.Remove(destination);
             var travelAndColTime = travelTime + destination.Area * .5 * .43;
 
             timeLimitInSecs -= travelAndColTime;
@@ -32,7 +31,8 @@ namespace Starship.Core.Services
             {
                 conqueredPlanets.Add(destination);
 
-                destination = travelService.FindNearestObject(startPosition, planets) as Planet;
+                destination = travelService.FindNearestObject(startPosition, planets);
+                planets.Remove(destination);
                 travelAndColTime = travelTime + destination.Area * .5 * .43;
                 timeLimitInSecs -= travelAndColTime;
             }
@@ -42,7 +42,7 @@ namespace Starship.Core.Services
 
         public IEnumerable<Planet> ConquerTheUniverseMins(Position startPosition, IList<Planet> planets, double timeLimitInMins)
         {
-            return ConquerTheUniverseMins(startPosition, planets, timeLimitInMins * 60);
+            return ConquerTheUniverseSecs(startPosition, planets, timeLimitInMins * 60);
         }
 
         public IEnumerable<Planet> ConquerTheUniverseHours(Position startPosition, IList<Planet> planets, double timeLimitInHours)

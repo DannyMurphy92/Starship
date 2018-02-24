@@ -33,6 +33,12 @@ namespace Starship.Core.Installer
             container.Register(
                 Component.For<ICoordinateFactory>()
                     .ImplementedBy<CoordinateFactory>());
+            container.Register(
+                Component.For<ITravelService>()
+                    .ImplementedBy<TravelService>());
+            container.Register(
+                Component.For<IColonizationService>()
+                    .ImplementedBy<ColonizationService>());
 
         }
     }

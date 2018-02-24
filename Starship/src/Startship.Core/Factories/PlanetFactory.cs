@@ -19,7 +19,7 @@ namespace Starship.Core.Factories
         public Planet Create()
         {
             var isHabitable = randomGenerator.GenerateBool(40);
-            var area = randomGenerator.GenerateDouble() * 100000000;
+            var area = randomGenerator.GenerateDouble() * 100;
             return new Planet(positionFactory.Create(), isHabitable, area);
         }
 
@@ -31,9 +31,13 @@ namespace Starship.Core.Factories
             if (arguments.Length == 6)
             {
                 var valid = true;
+
                 var position = positionFactory.CreateFromString(arguments[1], arguments[2], arguments[3]);
-                valid &= bool.TryParse(arguments[4], out var isHabitable);
-                valid &= double.TryParse(arguments[5], out var area);
+                bool isHabitable;
+                double area;
+
+                valid &= bool.TryParse(arguments[4], out isHabitable);
+                valid &= double.TryParse(arguments[5], out area);
                 if (valid)
                 {
                     return new Planet(position, isHabitable, area);

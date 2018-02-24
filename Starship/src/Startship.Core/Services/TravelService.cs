@@ -18,6 +18,7 @@ namespace Starship.Core.Services
         //Implmented using rough distance calculation, getting more accurate until nearest position is unique distance
         public Planet FindNearestObject(Position currentPos, IList<Planet> planets)
         {
+            planets = planets.Where(p => p.IsHabitable).ToList();
             var cX = currentPos.X;
             var cY = currentPos.Y;
             var cZ= currentPos.Z;
