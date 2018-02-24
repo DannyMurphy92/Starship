@@ -112,6 +112,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Factories\BatchSpaceObjectFactoryTestFixture.cs" />
     <Compile Include="Factories\CoordinateFactoryTestFixture.cs" />
+    <Compile Include="Services\ColonizationServiceTestFixture.cs" />
     <Compile Include="Services\FileWriterTestFixture.cs" />
     <Compile Include="Factories\PositionFactoryTestFixture.cs" />
     <Compile Include="Services\TravelServiceTestFixture.cs" />

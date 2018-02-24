@@ -10,6 +10,6 @@ namespace Starship.Core.Services.Interfaces
 {
     public interface ITravelService
     {
-        BaseSpaceObject FindNearestObject(Position currentPos, IList<BaseSpaceObject> spaceObjects);
+        Planet FindNearestObject(Position currentPos, IList<Planet> planets);
     }
 }

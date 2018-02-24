@@ -16,13 +16,13 @@ namespace Starship.Core.Services
     {
         //Assumption made about positions that they get more specific from L to R
         //Implmented using rough distance calculation, getting more accurate until nearest position is unique distance
-        public BaseSpaceObject FindNearestObject(Position currentPos, IList<BaseSpaceObject> spaceObjects)
+        public Planet FindNearestObject(Position currentPos, IList<Planet> planets)
         {
             var cX = currentPos.X;
             var cY = currentPos.Y;
             var cZ= currentPos.Z;
 
-            var result = spaceObjects
+            var result = planets
                 .Select(t =>
                 {
                     var tX = t.Position.X;
@@ -35,33 +35,33 @@ namespace Starship.Core.Services
 
             if (result.Count() > 1 && !IsNearestDistanceUnique(result))
             {
-                result = spaceObjects
+                result = result
                 .Select(t =>
                 {
-                    var tX = t.Position.X;
-                    var tY = t.Position.Y;
-                    var tZ = t.Position.Z;
-                    return CloseEstimateToDistance(cX.Area2, tX.Area2, cY.Area2, tY.Area2, cZ.Area2, tZ.Area2, t);
+                    var tX = t.Planet.Position.X;
+                    var tY = t.Planet.Position.Y;
+                    var tZ = t.Planet.Position.Z;
+                    return CloseEstimateToDistance(cX.Area2, tX.Area2, cY.Area2, tY.Area2, cZ.Area2, tZ.Area2, t.Planet);
                 })
                 .OrderBy(t => t.Distance)
                 .ToList();
 
                 if (!IsNearestDistanceUnique(result))
                 {
-                    result = spaceObjects
+                    result = result
                     .Select(t =>
                     {
-                        var tX = t.Position.X;
-                        var tY = t.Position.Y;
-                        var tZ = t.Position.Z;
-                        return CloseEstimateToDistance(cX.Area3, tX.Area3, cY.Area3, tY.Area3, cZ.Area3, tZ.Area3, t);
+                        var tX = t.Planet.Position.X;
+                        var tY = t.Planet.Position.Y;
+                        var tZ = t.Planet.Position.Z;
+                        return CloseEstimateToDistance(cX.Area3, tX.Area3, cY.Area3, tY.Area3, cZ.Area3, tZ.Area3, t.Planet);
                     })
                     .OrderBy(t => t.Distance)
                     .ToList();
 
                     if (!IsNearestDistanceUnique(result))
                     {
-                        result = spaceObjects
+                        result = planets
                         .Select(t =>
                         {
                             var tX = t.Position.X;
@@ -75,7 +75,7 @@ namespace Starship.Core.Services
                 }
             }
 
-            return result.First().Object;
+            return result.First().Planet;
         }
 
         private bool IsNearestDistanceUnique(List<SortResult> result)
@@ -83,11 +83,11 @@ namespace Starship.Core.Services
             return result[0].Distance == result[1].Distance;
         }
         
-        private SortResult CloseEstimateToDistance(int sX, int tX, int sY, int tY, int sZ, int tZ, BaseSpaceObject bObject)
+        private SortResult CloseEstimateToDistance(int sX, int tX, int sY, int tY, int sZ, int tZ, Planet planet)
         {
             return new SortResult
             {
-                Object = bObject,
+                Planet = planet,
                 Distance = Math.Pow(tX - sX, 2) + Math.Pow(tY - sY, 2) + Math.Pow(tZ - sZ, 2)
             };
         }

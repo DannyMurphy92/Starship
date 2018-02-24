@@ -10,10 +10,10 @@ namespace Starship.Core.Services.Interfaces
 {
     public interface IColonizationService
     {
-        IEnumerable<Planet> ConquerTheUniverseSecs(Position startPosition, IEnumerable<Planet> planets, int timeInSecs);
+        IEnumerable<Planet> ConquerTheUniverseSecs(Position startPosition, IList<Planet> planets, double timeInSecs);
 
-        IEnumerable<Planet> ConquerTheUniverseMins(Position startPosition, IEnumerable<Planet> planets, int timeInMins);
+        IEnumerable<Planet> ConquerTheUniverseMins(Position startPosition, IList<Planet> planets, double timeInMins);
 
-        IEnumerable<Planet> ConquerTheUniverseHours(Position startPosition, IEnumerable<Planet> planets, int timeInHours);
+        IEnumerable<Planet> ConquerTheUniverseHours(Position startPosition, IList<Planet> planets, double timeInHours);
     }
 }

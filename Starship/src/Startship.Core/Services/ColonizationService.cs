@@ -1,25 +1,53 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Starship.Core.Models;
+using Starship.Core.Models.Abstracts;
 using Starship.Core.Services.Interfaces;
 
 namespace Starship.Core.Services
 {
     public class ColonizationService : IColonizationService
     {
-        public IEnumerable<Planet> ConquerTheUniverseSecs(Position startPosition, IEnumerable<Planet> planets, int timeInSecs)
+        private readonly ITravelService travelService;
+
+        public ColonizationService(ITravelService travelService)
         {
-            throw new NotImplementedException();
+            this.travelService = travelService;
         }
 
-        public IEnumerable<Planet> ConquerTheUniverseMins(Position startPosition, IEnumerable<Planet> planets, int timeInMins)
+        public IEnumerable<Planet> ConquerTheUniverseSecs(Position startPosition, IList<Planet> planets, double timeLimitInSecs)
         {
-            return ConquerTheUniverseMins(startPosition, planets, timeInMins * 60);
+            var conqueredPlanets = new List<Planet>();
+
+            var travelTime = 10 * 60;
+
+
+            var x = travelService.FindNearestObject(startPosition, planets);
+            var destination = x;
+            var travelAndColTime = travelTime + destination.Area * .5 * .43;
+
+            timeLimitInSecs -= travelAndColTime;
+
+            while (timeLimitInSecs >= 0)
+            {
+                conqueredPlanets.Add(destination);
+
+                destination = travelService.FindNearestObject(startPosition, planets) as Planet;
+                travelAndColTime = travelTime + destination.Area * .5 * .43;
+                timeLimitInSecs -= travelAndColTime;
+            }
+
+            return conqueredPlanets;
         }
 
-        public IEnumerable<Planet> ConquerTheUniverseHours(Position startPosition, IEnumerable<Planet> planets, int timeInHours)
+        public IEnumerable<Planet> ConquerTheUniverseMins(Position startPosition, IList<Planet> planets, double timeLimitInMins)
         {
-            return ConquerTheUniverseMins(startPosition, planets, timeInHours * 60);
+            return ConquerTheUniverseMins(startPosition, planets, timeLimitInMins * 60);
+        }
+
+        public IEnumerable<Planet> ConquerTheUniverseHours(Position startPosition, IList<Planet> planets, double timeLimitInHours)
+        {
+            return ConquerTheUniverseMins(startPosition, planets, timeLimitInHours * 60);
         }
     }
 }

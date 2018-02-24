@@ -37,7 +37,7 @@ namespace Starship.Core.Tests.Services
             var nearZ = new Coordinate(111, 111, 11, 1);
             var nearPos = new Position(nearX, nearY, nearZ);
 
-            var possiblePositions = new List<BaseSpaceObject>();
+            var possiblePositions = new List<Planet>();
             for (int i = 0; i < 20; i++)
             {
                 possiblePositions.Add(new Planet(fixture.Create<Position>(), true, 1));
