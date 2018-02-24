@@ -48,7 +48,12 @@ namespace Starship.Core.Services
                 var line = string.Empty;
                 while ((line = await r.ReadLineAsync()) != null)
                 {
-                    result.Add(batchSpaceObjFactory.GenerateFromString(line));
+                    var spaceObj = batchSpaceObjFactory.CreateFromString(line);
+
+                    if (spaceObj != null)
+                    {
+                        result.Add(batchSpaceObjFactory.CreateFromString(line));
+                    }
                 }
                 return result;
             }

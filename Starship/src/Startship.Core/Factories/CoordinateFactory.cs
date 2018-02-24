@@ -29,10 +29,15 @@ namespace Starship.Core.Factories
             if (arguments.Length == 4)
             {
                 var valid = true;
-                valid &= int.TryParse(arguments[0], out var a1);
-                valid &= int.TryParse(arguments[1], out var a2);
-                valid &= int.TryParse(arguments[2], out var a3);
-                valid &= int.TryParse(arguments[3], out var a4);
+                int a1;
+                int a2;
+                int a3;
+                int a4;
+
+                valid &= int.TryParse(arguments[0], out a1);
+                valid &= int.TryParse(arguments[1], out a2);
+                valid &= int.TryParse(arguments[2], out a3);
+                valid &= int.TryParse(arguments[3], out a4);
 
                 if (valid)
                 {

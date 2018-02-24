@@ -86,7 +86,6 @@
     <Compile Include="Services\RandomGenerator.cs" />
     <Compile Include="Factories\PositionFactory.cs" />
     <Compile Include="Services\TravelService.cs" />
-    <Compile Include="Settings.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -26,7 +26,7 @@ namespace Starship.Cli
 
             var batchFac = container.Resolve<IBatchSpaceObjectFactory>();
 
-            var objects = batchFac.Generate(15000).ToList();
+            var objects = batchFac.Create(15000).ToList();
 
             var fAccessor = container.Resolve<IFileAccessor>();
             await fAccessor.WriteSpaceObjectsToFileAsync(objects, file);
@@ -37,8 +37,8 @@ namespace Starship.Cli
 
             var colonization = container.Resolve<IColonizationService>();
 
-            //NOTE: Planets do not range from 1m - 100m area, time to colonize 50% @ 0.43km2/s 
-            //ranges from 215,000 - 21,500,000 but there are only 86,400 secs in a day
+            //NOTE: My planets do not range from 1m - 100m area, time to colonize 50% @ 0.43km2/s 
+            //ranges from 215,000 - 21,500,000 secs but there are only 86,400 secs in a 24hrs
             var colonized = colonization.ConquerTheUniverseHours(startPos, planets, 24).ToList();
             await fAccessor.WriteSpaceObjectsToFileAsync(colonized, "ColonizedPlanets.txt");
             Console.WriteLine($"Successfully colonized {colonized.Count()} planets");

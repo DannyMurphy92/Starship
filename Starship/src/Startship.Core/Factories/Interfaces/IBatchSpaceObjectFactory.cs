@@ -5,10 +5,8 @@ namespace Starship.Core.Factories.Interfaces
 {
     public interface IBatchSpaceObjectFactory
     {
-        IEnumerable<BaseSpaceObject> Generate(int amount);
-
-        IEnumerable<BaseSpaceObject> GenerateFromStrings(IEnumerable<string> input);
-
-        BaseSpaceObject GenerateFromString(string input);
+        IEnumerable<BaseSpaceObject> Create(int amount);
+        
+        BaseSpaceObject CreateFromString(string input);
     }
 }

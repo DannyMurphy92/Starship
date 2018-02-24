@@ -22,7 +22,7 @@ namespace Starship.Core.Factories
             this.planetFactory = planetFactory;
         }
 
-        public IEnumerable<BaseSpaceObject> Generate(int amount)
+        public IEnumerable<BaseSpaceObject> Create(int amount)
         {
             for (var i = 0; i < amount; i++)
             {
@@ -38,23 +38,8 @@ namespace Starship.Core.Factories
                 }
             }
         }
-
-        public IEnumerable<BaseSpaceObject> GenerateFromStrings(IEnumerable<string> input)
-        {
-            var result = new List<BaseSpaceObject>();
-            foreach (var inp in input)
-            {
-                var res = GenerateFromString(inp);
-                if (res != null)
-                {
-                    result.Add(res);
-                }
-            }
-
-            return result;
-        }
-
-        public BaseSpaceObject GenerateFromString(string input)
+        
+        public BaseSpaceObject CreateFromString(string input)
         {
             try
             {

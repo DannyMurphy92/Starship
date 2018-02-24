@@ -23,6 +23,7 @@ namespace Starship.Core.Services
             var cY = currentPos.Y;
             var cZ= currentPos.Z;
 
+            // Extract this sorting to a private method
             var result = planets
                 .Select(t =>
                 {
@@ -79,7 +80,7 @@ namespace Starship.Core.Services
             return result.First().Planet;
         }
 
-        private bool IsNearestDistanceUnique(List<SortResult> result)
+        private bool IsNearestDistanceUnique(IList<SortResult> result)
         {
             return result[0].Distance == result[1].Distance;
         }

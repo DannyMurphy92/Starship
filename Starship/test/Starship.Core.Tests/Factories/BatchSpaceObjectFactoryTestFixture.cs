@@ -61,7 +61,7 @@ namespace Starship.Core.Tests.Factories
             var subject = fixture.Create<BatchSpaceObjectFactory>();
 
             // Act
-            var result = subject.Generate(amount);
+            var result = subject.Create(amount);
 
             // Assert
             Assert.AreEqual(amount, result.Count());
@@ -75,7 +75,7 @@ namespace Starship.Core.Tests.Factories
             var subject = fixture.Create<BatchSpaceObjectFactory>();
 
             // Act
-            var result = subject.Generate(amount).ToList();
+            var result = subject.Create(amount).ToList();
 
             // Assert
             randomGenMock.Verify(r => r.GenerateBool(It.IsAny<int>()), Times.Exactly(amount));
@@ -92,7 +92,7 @@ namespace Starship.Core.Tests.Factories
             var subject = fixture.Create<BatchSpaceObjectFactory>();
 
             // Act
-            var result = subject.Generate(amount).ToList();
+            var result = subject.Create(amount).ToList();
 
 
             // Assert
@@ -110,7 +110,7 @@ namespace Starship.Core.Tests.Factories
             var subject = fixture.Create<BatchSpaceObjectFactory>();
 
             // Act
-            var result = subject.Generate(amount).ToList();
+            var result = subject.Create(amount).ToList();
 
 
             // Assert
@@ -118,95 +118,88 @@ namespace Starship.Core.Tests.Factories
         }
 
         [Test]
-        public void GenerateFromStrings_WhenInvoked_ReturnsTheCorrectNumberOfObjects()
+        public void CreateFromString_WhenIsMonsterString_CallMonsterFactory()
         {
             // Arrange
-            var planets = fixture.CreateMany<Planet>(5);
-            var planetStrings = planets.Select(p => p.ToString()).ToList();
-            var monsters = fixture.CreateMany<Monster>(4);
-            var monsterStrings = monsters.Select(p => p.ToString()).ToList();
+            var monster = fixture.Create<Monster>();
+            var monsterStr = monster.ToString();
 
-            var input = new List<string>(planetStrings);
-            input.AddRange(monsterStrings);
             var subject = fixture.Create<BatchSpaceObjectFactory>();
 
             // Act
-            var result = subject.GenerateFromStrings(input).ToList();
+            subject.CreateFromString(monsterStr);
 
             // Assert
-            Assert.AreEqual(input.Count(), result.Count);
-            foreach (var pStr in planetStrings)
-            {
-                planetFactoryMock.Verify(p => p.CreateFromString(pStr), Times.Once);
-            }
-            foreach (var mStr in monsterStrings)
-            {
-                monsterFactoryMock.Verify(p => p.CreateFromString(mStr), Times.Once);
-            }
+            monsterFactoryMock.Verify(m => m.CreateFromString(monsterStr), Times.Once);
         }
 
         [Test]
-        public void GenerateFromString_WhenPlanetFactoryThrowsException_TheRestOfTheStringsAreStillParsed()
+        public void CreateFromString_WhenIsPlanetString_CallPlanetFactory()
         {
             // Arrange
-            var planets = fixture.CreateMany<Planet>(5);
-            var planetStrings = planets.Select(p => p.ToString()).ToList();
-            var monsters = fixture.CreateMany<Monster>(4);
-            var monsterStrings = monsters.Select(p => p.ToString()).ToList();
-
-            var input = new List<string>(planetStrings);
-            input.AddRange(monsterStrings);
-
-            planetFactoryMock.Setup(p => p.CreateFromString(planetStrings[0]))
-                .Throws(new ArgumentException());
+            var planet = fixture.Create<Planet>();
+            var planetSr = planet.ToString();
 
             var subject = fixture.Create<BatchSpaceObjectFactory>();
 
             // Act
-            var result = subject.GenerateFromStrings(input).ToList();
+            subject.CreateFromString(planetSr);
 
             // Assert
-            Assert.AreEqual(input.Count() - 1, result.Count);
-            foreach (var pStr in planetStrings)
-            {
-                planetFactoryMock.Verify(p => p.CreateFromString(pStr), Times.Once);
-            }
-            foreach (var mStr in monsterStrings)
-            {
-                monsterFactoryMock.Verify(p => p.CreateFromString(mStr), Times.Once);
-            }
+            planetFactoryMock.Verify(m => m.CreateFromString(planetSr), Times.Once);
         }
 
         [Test]
-        public void GenerateFromString_WhenMonsterFactoryThrowsException_TheRestOfTheStringsAreStillParsed()
+        public void CreateFromString_WhenIsNotAValidSpaceObjectString_ReturnsNull()
         {
             // Arrange
-            var planets = fixture.CreateMany<Planet>(5);
-            var planetStrings = planets.Select(p => p.ToString()).ToList();
-            var monsters = fixture.CreateMany<Monster>(4);
-            var monsterStrings = monsters.Select(p => p.ToString()).ToList();
-
-            var input = new List<string>(planetStrings);
-            input.AddRange(monsterStrings);
-
-            monsterFactoryMock.Setup(p => p.CreateFromString(monsterStrings[0]))
-                .Throws(new ArgumentException());
+            var input = fixture.Create<string>();
 
             var subject = fixture.Create<BatchSpaceObjectFactory>();
 
             // Act
-            var result = subject.GenerateFromStrings(input).ToList();
+            var result = subject.CreateFromString(input);
 
             // Assert
-            Assert.AreEqual(input.Count() - 1, result.Count);
-            foreach (var pStr in planetStrings)
-            {
-                planetFactoryMock.Verify(p => p.CreateFromString(pStr), Times.Once);
-            }
-            foreach (var mStr in monsterStrings)
-            {
-                monsterFactoryMock.Verify(p => p.CreateFromString(mStr), Times.Once);
-            }
+            Assert.AreEqual(null, result);
+        }
+
+        [Test]
+        public void CreateFromString_WhenPlanetFactoryThrowsException_ReturnsNull()
+        {
+            // Arrange
+            planetFactoryMock.Setup(p => p.CreateFromString(It.IsAny<string>()))
+                .Throws(new Exception());
+
+            var planet = fixture.Create<Planet>();
+            var planetSr = planet.ToString();
+
+            var subject = fixture.Create<BatchSpaceObjectFactory>();
+
+            // Act
+            var result = subject.CreateFromString(planetSr);
+
+            // Assert
+            Assert.AreEqual(null, result);
+        }
+
+        [Test]
+        public void CreateFromString_WhenMonsterFactoryThrowsException_ReturnsNull()
+        {
+            // Arrange
+            monsterFactoryMock.Setup(p => p.CreateFromString(It.IsAny<string>()))
+                .Throws(new Exception());
+
+            var monster = fixture.Create<Monster>();
+            var monsterStr = monster.ToString();
+
+            var subject = fixture.Create<BatchSpaceObjectFactory>();
+
+            // Act
+            var result = subject.CreateFromString(monsterStr);
+
+            // Assert
+            Assert.AreEqual(null, result);
         }
     }
 }
