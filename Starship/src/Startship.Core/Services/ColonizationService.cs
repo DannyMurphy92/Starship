@@ -18,22 +18,19 @@ namespace Starship.Core.Services
         public IEnumerable<Planet> ConquerTheUniverseSecs(Position startPosition, IList<Planet> planets, double timeLimitInSecs)
         {
             var conqueredPlanets = new List<Planet>();
+            double travelAndColTime;
 
-            var travelTime = 10 * 60;
-            
-            var destination = travelService.FindNearestObject(startPosition, planets);
-            planets.Remove(destination);
-            var travelAndColTime = travelTime + destination.Area * .5 * .43;
 
+            var destination = GetNextDestination(startPosition, planets, out travelAndColTime);
+            startPosition = destination.Position;
             timeLimitInSecs -= travelAndColTime;
 
             while (timeLimitInSecs >= 0)
             {
                 conqueredPlanets.Add(destination);
 
-                destination = travelService.FindNearestObject(startPosition, planets);
-                planets.Remove(destination);
-                travelAndColTime = travelTime + destination.Area * .5 * .43;
+                destination = GetNextDestination(startPosition, planets, out travelAndColTime);
+                startPosition = destination.Position;
                 timeLimitInSecs -= travelAndColTime;
             }
 
@@ -48,6 +45,17 @@ namespace Starship.Core.Services
         public IEnumerable<Planet> ConquerTheUniverseHours(Position startPosition, IList<Planet> planets, double timeLimitInHours)
         {
             return ConquerTheUniverseMins(startPosition, planets, timeLimitInHours * 60);
+        }
+        
+        private Planet GetNextDestination(Position startPos, IList<Planet> planets, out double travelAndColTime)
+        {
+            var travelTime = 10 * 60;
+
+            var destination = travelService.FindNearestObject(startPos, planets);
+            planets.Remove(destination);
+            travelAndColTime = travelTime + destination.Area * .5 * .43;
+
+            return destination;
         }
     }
 }

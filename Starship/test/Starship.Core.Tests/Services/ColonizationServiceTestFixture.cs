@@ -67,11 +67,8 @@ namespace Starship.Core.Tests.Services
             // Assert
             Assert.AreEqual(2, result.Count());
             travelService.Verify(t => t.FindNearestObject(It.IsAny<Position>(), It.IsAny<IList<Planet>>()), Times.Exactly(3));
-            Assert.AreEqual(planets[0], result[0]);
-            Assert.AreEqual(planets[1], result[1]);
         }
-
-
+        
         [Test]
         public void ConquerTheUniverseSecs_WhenTimeLimitOnlyAllowsForConqueringOfAPlanet_DoesNotConquerPlanet()
         {
@@ -86,6 +83,28 @@ namespace Starship.Core.Tests.Services
             // Assert
             Assert.AreEqual(0, result.Count());
             travelService.Verify(t => t.FindNearestObject(It.IsAny<Position>(), It.IsAny<IList<Planet>>()), Times.Once);
+        }
+        
+        [Test]
+        public void ConquerTheUniverseSecs_WhenInvoked_MustUsePositionOfDestinationAsStartPosForNextIteration()
+        {
+            // Arrange
+            var timeLimit = planets[0].Area * .5 * .43;
+            timeLimit += planets[1].Area * .5 * .43;
+            timeLimit += 10 * 60 * 2;
+            var startPos = fixture.Create<Position>();
+            var pos1 = planets[0].Position;
+            var pos2 = planets[1].Position;
+
+            var subject = fixture.Create<ColonizationService>();
+
+            // Act
+            var result = subject.ConquerTheUniverseSecs(startPos, planets, timeLimit).ToList();
+
+            // Assert
+            travelService.Verify(t => t.FindNearestObject(startPos, It.IsAny<IList<Planet>>()), Times.Once);
+            travelService.Verify(t => t.FindNearestObject(pos1, It.IsAny<IList<Planet>>()), Times.Once);
+            travelService.Verify(t => t.FindNearestObject(pos2, It.IsAny<IList<Planet>>()), Times.Once);
         }
 
         private void SetUpPlanets()
