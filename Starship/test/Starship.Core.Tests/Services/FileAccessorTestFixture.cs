@@ -1,9 +1,11 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.IO.Abstractions;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoFixture;
 using AutoFixture.AutoMoq;
+using Microsoft.Practices.ObjectBuilder2;
 using Moq;
 using NUnit.Framework;
 using Starship.Core.Factories.Interfaces;
@@ -21,7 +23,7 @@ namespace Starship.Core.Tests.Services
         private Mock<IBatchSpaceObjectFactory> batchSOFactoryMock;
 
         private Mock<StreamWriter> streamWriterMock;
-        private Mock<StreamReader> streamReaderMock;
+        private IList<string> fileLines;
 
         [OneTimeSetUp]
         public void OneTimeSetup()
@@ -43,8 +45,17 @@ namespace Starship.Core.Tests.Services
         public void Setup()
         {
             streamWriterMock = new Mock<StreamWriter>(new MemoryStream());
+
+            fileLines = fixture.CreateMany<string>(10).ToList();
+
+
+            fileSystemMock.Setup(f => f.File.Exists(It.IsAny<string>()))
+                .Returns(true);
             fileSystemMock.Setup(f => f.File.AppendText(It.IsAny<string>()))
                 .Returns(streamWriterMock.Object);
+
+            fileSystemMock.Setup(f => f.File.OpenRead(It.IsAny<string>()))
+                .Returns(FileLinesToStream);
         }
 
         [Test]
@@ -67,8 +78,6 @@ namespace Starship.Core.Tests.Services
         {
             // Arrange
             var fileName = fixture.Create<string>();
-            fileSystemMock.Setup(f => f.File.Exists(fileName))
-                .Returns(true);
 
             var subject = fixture.Create<FileAccessor>();
 
@@ -95,7 +104,7 @@ namespace Starship.Core.Tests.Services
         }
 
         [Test]
-        public async Task ReadSpaceObjectsFromFile_WhenFileDoesntExist_ThrowsException()
+        public void ReadSpaceObjectsFromFile_WhenFileDoesntExist_ThrowsException()
         {
             // Arrange
             var fileName = fixture.Create<string>();
@@ -112,19 +121,51 @@ namespace Starship.Core.Tests.Services
         }
 
         [Test]
-        public void ReadSpaceObjectsFromFile_ForEachLineInTheFile_TheSpaceObjectFactoryIsCalled()
+        public async Task ReadSpaceObjectsFromFile_ForEachLineInTheFile_TheSpaceObjectFactoryIsCalled()
         {
             // Arrange
             var fileName = fixture.Create<string>();
-            fileSystemMock.Setup(f => f.File.Exists(fileName))
-                .Returns(false);
 
+            var subject = fixture.Create<FileAccessor>();
 
             // Act
-
+            await subject.ReadSpaceObjectFromFileAsync(fixture.Create<string>());
 
             // Assert
+            batchSOFactoryMock.Verify(b => b.CreateFromString(It.IsAny<string>()), Times.Exactly(fileLines.Count()));
+            fileLines.ForEach(l => batchSOFactoryMock.Verify(b => b.CreateFromString(l), Times.Once));
+        }
 
+        [Test]
+        public async Task ReadSpaceObjectsFromFile_WhenFactoryReturnsNull_ResultIsNotAddedToResultList()
+        {
+            // Arrange
+            batchSOFactoryMock.Setup(b => b.CreateFromString(fileLines[0]))
+                .Returns(() => null);
+
+            var subject = fixture.Create<FileAccessor>();
+
+            // Act
+            var result = await subject.ReadSpaceObjectFromFileAsync(fixture.Create<string>());
+
+            // Assert
+            Assert.AreEqual(fileLines.Count() - 1, result.Count());
+        }
+
+        private Stream FileLinesToStream()
+        {
+            var stream = new MemoryStream();
+            var writer = new StreamWriter(stream);
+
+            foreach (var line in fileLines)
+            {
+                writer.WriteLine(line);
+            }
+
+            writer.Flush();
+            stream.Position = 0;
+
+            return stream;
         }
     }
 }

@@ -77,7 +77,7 @@ namespace Starship.Core.Services
                 }
             }
 
-            return result.First().Planet;
+            return result.FirstOrDefault()?.Planet;
         }
 
         private bool IsNearestDistanceUnique(IList<SortResult> result)

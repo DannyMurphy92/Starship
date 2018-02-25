@@ -50,16 +50,16 @@ namespace Starship.Core.Services
                 throw new FileNotFoundException("Could not find file", filePath);
             }
             var result = new List<BaseSpaceObject>();
-            using (StreamReader r = new StreamReader(filePath))
+            using (StreamReader r = new StreamReader(fileSystem.File.OpenRead(filePath)))
             {
-                var line = string.Empty;
+                string line;
                 while ((line = await r.ReadLineAsync()) != null)
                 {
                     var spaceObj = batchSpaceObjFactory.CreateFromString(line);
 
                     if (spaceObj != null)
                     {
-                        result.Add(batchSpaceObjFactory.CreateFromString(line));
+                        result.Add(spaceObj);
                     }
                 }
                 return result;

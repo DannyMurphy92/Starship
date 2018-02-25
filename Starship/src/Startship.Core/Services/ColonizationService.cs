@@ -26,14 +26,13 @@ namespace Starship.Core.Services
             var conqueredPlanets = new List<Planet>();
 
             var destination = FindAndColonizeNextDestination(startPosition, planets, ref timeLimitInSecs);
-            startPosition = destination.Position;
 
-            while (timeLimitInSecs >= 0)
+            while (timeLimitInSecs >= 0 && destination != null)
             {
+                startPosition = destination.Position;
                 conqueredPlanets.Add(destination);
 
                 destination = FindAndColonizeNextDestination(startPosition, planets, ref timeLimitInSecs);
-                startPosition = destination.Position;
             }
 
             return conqueredPlanets;
@@ -54,9 +53,11 @@ namespace Starship.Core.Services
             var travelTime = travelTimeInMins * 60;
 
             var destination = travelService.FindNearestObject(startPos, planets);
-            planets.Remove(destination);
-            remainingTime -= travelTime + destination.Area * pcToColonize * colonizationRateKmPerSec;
-
+            if (destination != null)
+            {
+                planets.Remove(destination);
+                remainingTime -= travelTime + destination.Area * pcToColonize * colonizationRateKmPerSec;
+            }
             return destination;
         }
     }
