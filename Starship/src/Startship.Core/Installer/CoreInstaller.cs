@@ -1,4 +1,5 @@
-﻿using Castle.MicroKernel.Registration;
+﻿using System.IO.Abstractions;
+using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
 using Starship.Core.Factories;
@@ -27,6 +28,9 @@ namespace Starship.Core.Installer
             container.Register(
                 Component.For<IBatchSpaceObjectFactory>()
                     .ImplementedBy<BatchSpaceObjectFactory>());
+            container.Register(
+                Component.For<IFileSystem>()
+                    .ImplementedBy<FileSystem>());
             container.Register(
                 Component.For<IFileAccessor>()
                     .ImplementedBy<FileAccessor>());
