@@ -13,8 +13,15 @@ namespace Starship.Cli
 {
     public class CoreClient
     {
+        //NOTE: My planets do not range from 1m - 100m area, time to colonize 50% @ 0.43km2/s 
+        //ranges from 215,000 - 21,500,000 secs but there are only 86,400 secs in a 24hrs
         public static async Task CreateUniverseFileAsync()
         {
+            var numberOfItem = int.Parse(ConfigurationManager.AppSettings["NumberOfSpaceItems"]);
+            var timeForColonizing = int.Parse(ConfigurationManager.AppSettings["TimeInHoursForColonizing"]);
+            var universeFile = ConfigurationManager.AppSettings["FullUniverseFile"];
+            var colonizedPlanetsFile = ConfigurationManager.AppSettings["ColonizedPlanetsFile"];
+
             var startPos = new Position(
                 new Coordinate(123, 123, 99, 1), 
                 new Coordinate(98, 98, 11, 1), 
@@ -22,27 +29,23 @@ namespace Starship.Cli
                 );
 
             var container = new WindsorContainer();
-            string file = "Universe.txt";
-
             container.Install(new CoreInstaller(GetSettings()));
 
             var batchFac = container.Resolve<IBatchSpaceObjectFactory>();
-
-            var objects = batchFac.Create(15000).ToList();
-
             var fAccessor = container.Resolve<IFileAccessor>();
-            await fAccessor.WriteSpaceObjectsToFileAsync(objects, file);
-
-            var fileObjs = await fAccessor.ReadSpaceObjectFromFileAsync(file);
-
-            var planets = fileObjs.ToList().OfType<Planet>().ToList();
-
             var colonization = container.Resolve<IColonizationService>();
 
-            //NOTE: My planets do not range from 1m - 100m area, time to colonize 50% @ 0.43km2/s 
-            //ranges from 215,000 - 21,500,000 secs but there are only 86,400 secs in a 24hrs
-            var colonized = colonization.ConquerTheUniverseHours(startPos, planets, 24).ToList();
-            await fAccessor.WriteSpaceObjectsToFileAsync(colonized, "ColonizedPlanets.txt");
+            //Create all the items in the universe and write to file
+            var objects = batchFac.Create(numberOfItem).ToList();
+            await fAccessor.WriteSpaceObjectsToFileAsync(objects, universeFile);
+
+            //Read all items in universe from file
+            var fileObjs = await fAccessor.ReadSpaceObjectFromFileAsync(universeFile);
+            var planets = fileObjs.ToList().OfType<Planet>().ToList();
+
+            //Colonize planets and write colonized planets to file
+            var colonized = colonization.ConquerTheUniverseHours(startPos, planets, timeForColonizing).ToList();
+            await fAccessor.WriteSpaceObjectsToFileAsync(colonized, colonizedPlanetsFile);
             Console.WriteLine($"Successfully colonized {colonized.Count()} planets");
         }
 
