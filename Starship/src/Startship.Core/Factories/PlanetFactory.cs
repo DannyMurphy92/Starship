@@ -9,17 +9,28 @@ namespace Starship.Core.Factories
     {
         private readonly IPositionFactory positionFactory;
         private readonly IRandomGenerator randomGenerator;
+        private readonly int probHabitable;
+        private readonly double maxArea;
+        private readonly double minArea;
 
-        public PlanetFactory(IPositionFactory positionFactory, IRandomGenerator randomGenerator)
+        public PlanetFactory(
+            IPositionFactory positionFactory, 
+            IRandomGenerator randomGenerator, 
+            int probHabitable,
+            double minArea,
+            double maxArea)
         {
             this.positionFactory = positionFactory;
             this.randomGenerator = randomGenerator;
+            this.probHabitable = probHabitable;
+            this.minArea = minArea;
+            this.maxArea = maxArea;
         }
 
         public Planet Create()
         {
-            var isHabitable = randomGenerator.GenerateBool(40);
-            var area = randomGenerator.GenerateDouble() * 100;
+            var isHabitable = randomGenerator.GenerateBool(probHabitable);
+            var area = randomGenerator.GenerateDouble(minArea, maxArea);
             return new Planet(positionFactory.Create(), isHabitable, area);
         }
 

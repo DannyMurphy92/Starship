@@ -42,16 +42,21 @@ namespace Starship.Core.Tests.Factories
         public void Create_WhenInvoked_CallsRandomDoubleGeneratorFourTimes()
         {
             // Arrange
-            var subject = fixture.Create<CoordinateFactory>();
+            var a1 = 1000;
+            var a2 = 100;
+            var a3 = 10;
+            var a4 = 1;
+            var subject = new CoordinateFactory(rdnGeneratorMock.Object, a1, a2, a3, a4);
 
             // Act
             subject.Create();
 
             // Assert
             rdnGeneratorMock.Verify(r => r.GenerateInt(It.IsAny<int>()), Times.Exactly(4));
-            rdnGeneratorMock.Verify(r => r.GenerateInt(999), Times.Exactly(2));
-            rdnGeneratorMock.Verify(r => r.GenerateInt(99), Times.Exactly(1));
-            rdnGeneratorMock.Verify(r => r.GenerateInt(9), Times.Exactly(1));
+            rdnGeneratorMock.Verify(r => r.GenerateInt(a1), Times.Exactly(1));
+            rdnGeneratorMock.Verify(r => r.GenerateInt(a2), Times.Exactly(1));
+            rdnGeneratorMock.Verify(r => r.GenerateInt(a3), Times.Exactly(1));
+            rdnGeneratorMock.Verify(r => r.GenerateInt(a4), Times.Exactly(1));
         }
 
         [Test]

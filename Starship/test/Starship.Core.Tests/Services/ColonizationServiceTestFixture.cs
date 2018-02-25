@@ -20,7 +20,7 @@ namespace Starship.Core.Tests.Services
     {
         private IFixture fixture;
 
-        private Mock<ITravelService> travelService;
+        private Mock<ITravelService> travelServiceMock;
 
         private IList<Planet> planets;
 
@@ -29,7 +29,7 @@ namespace Starship.Core.Tests.Services
         {
             fixture = new Fixture().Customize(new AutoConfiguredMoqCustomization());
 
-            travelService = fixture.Freeze<Mock<ITravelService>>();
+            travelServiceMock = fixture.Freeze<Mock<ITravelService>>();
         }
 
         [SetUp]
@@ -37,7 +37,7 @@ namespace Starship.Core.Tests.Services
         {
             SetUpPlanets();
 
-            travelService.SetupSequence(
+            travelServiceMock.SetupSequence(
                     t => t.FindNearestObject(It.IsAny<Position>(), It.IsAny<IList<Planet>>()))
                  .Returns(planets[0])
                 .Returns(planets[1])
@@ -47,7 +47,7 @@ namespace Starship.Core.Tests.Services
         [TearDown]
         public void Teardown()
         {
-            travelService.Reset();
+            travelServiceMock.Reset();
         }
 
 
@@ -55,18 +55,21 @@ namespace Starship.Core.Tests.Services
         public void ConquerTheUniverseSecs_WhenTimeLimitOnlyAllowsForConqueringSomePlanets_OnlyConquersSomePlanets()
         {
             // Arrange
-            var timeLimit = planets[0].Area * .5 * .43;
-            timeLimit += planets[1].Area * .5 * .43;
-            timeLimit += 10 * 60 *2;
+            var travelTime = 20;
+            var clonizeRate = 0.6;
+            var pcColonize = .3;
+            var timeLimit = planets[0].Area * pcColonize * clonizeRate;
+            timeLimit += planets[1].Area * pcColonize * clonizeRate;
+            timeLimit += travelTime * 60 *2;
 
-            var subject = fixture.Create<ColonizationService>();
+            var subject = new ColonizationService(travelServiceMock.Object, travelTime, clonizeRate, pcColonize);
 
             // Act
             var result = subject.ConquerTheUniverseSecs(fixture.Create<Position>(), planets, timeLimit).ToList();
 
             // Assert
             Assert.AreEqual(2, result.Count());
-            travelService.Verify(t => t.FindNearestObject(It.IsAny<Position>(), It.IsAny<IList<Planet>>()), Times.Exactly(3));
+            travelServiceMock.Verify(t => t.FindNearestObject(It.IsAny<Position>(), It.IsAny<IList<Planet>>()), Times.Exactly(3));
         }
         
         [Test]
@@ -82,29 +85,32 @@ namespace Starship.Core.Tests.Services
 
             // Assert
             Assert.AreEqual(0, result.Count());
-            travelService.Verify(t => t.FindNearestObject(It.IsAny<Position>(), It.IsAny<IList<Planet>>()), Times.Once);
+            travelServiceMock.Verify(t => t.FindNearestObject(It.IsAny<Position>(), It.IsAny<IList<Planet>>()), Times.Once);
         }
         
         [Test]
         public void ConquerTheUniverseSecs_WhenInvoked_MustUsePositionOfDestinationAsStartPosForNextIteration()
         {
             // Arrange
-            var timeLimit = planets[0].Area * .5 * .43;
-            timeLimit += planets[1].Area * .5 * .43;
-            timeLimit += 10 * 60 * 2;
+            var travelTime = 20;
+            var clonizeRate = 0.6;
+            var pcColonize = .3;
+            var timeLimit = planets[0].Area * pcColonize * clonizeRate;
+            timeLimit += planets[1].Area * pcColonize * clonizeRate;
+            timeLimit += travelTime * 60 * 2;
             var startPos = fixture.Create<Position>();
             var pos1 = planets[0].Position;
             var pos2 = planets[1].Position;
 
-            var subject = fixture.Create<ColonizationService>();
+            var subject = new ColonizationService(travelServiceMock.Object, travelTime, clonizeRate, pcColonize);
 
             // Act
             var result = subject.ConquerTheUniverseSecs(startPos, planets, timeLimit).ToList();
 
             // Assert
-            travelService.Verify(t => t.FindNearestObject(startPos, It.IsAny<IList<Planet>>()), Times.Once);
-            travelService.Verify(t => t.FindNearestObject(pos1, It.IsAny<IList<Planet>>()), Times.Once);
-            travelService.Verify(t => t.FindNearestObject(pos2, It.IsAny<IList<Planet>>()), Times.Once);
+            travelServiceMock.Verify(t => t.FindNearestObject(startPos, It.IsAny<IList<Planet>>()), Times.Once);
+            travelServiceMock.Verify(t => t.FindNearestObject(pos1, It.IsAny<IList<Planet>>()), Times.Once);
+            travelServiceMock.Verify(t => t.FindNearestObject(pos2, It.IsAny<IList<Planet>>()), Times.Once);
         }
 
         private void SetUpPlanets()

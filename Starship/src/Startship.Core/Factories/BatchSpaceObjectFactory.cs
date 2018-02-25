@@ -11,22 +11,25 @@ namespace Starship.Core.Factories
         private readonly IRandomGenerator randomGenerator;
         private readonly IMonsterFactory monsterFactory;
         private readonly IPlanetFactory planetFactory;
+        private readonly int probPlanet;
 
         public BatchSpaceObjectFactory(
             IRandomGenerator randomGenerator, 
             IMonsterFactory monsterFactory, 
-            IPlanetFactory planetFactory)
+            IPlanetFactory planetFactory, 
+            int probPlanet)
         {
             this.randomGenerator = randomGenerator;
             this.monsterFactory = monsterFactory;
             this.planetFactory = planetFactory;
+            this.probPlanet = probPlanet;
         }
 
         public IEnumerable<BaseSpaceObject> Create(int amount)
         {
             for (var i = 0; i < amount; i++)
             {
-                var genPlanet = randomGenerator.GenerateBool(50);
+                var genPlanet = randomGenerator.GenerateBool(probPlanet);
 
                 if (genPlanet)
                 {

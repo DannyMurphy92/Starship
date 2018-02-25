@@ -11,9 +11,9 @@ namespace Starship.Core.Services
         {
             rdn = new Random();
         }
-        public double GenerateDouble()
+        public double GenerateDouble(double min, double max)
         {
-            return rdn.NextDouble();
+            return rdn.NextDouble() * (max - min) + min;
         }
 
         public int GenerateInt(int max)

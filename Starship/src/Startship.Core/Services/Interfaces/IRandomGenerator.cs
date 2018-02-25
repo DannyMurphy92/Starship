@@ -2,7 +2,7 @@
 {
     public interface IRandomGenerator
     {
-        double GenerateDouble();
+        double GenerateDouble(double min, double max);
 
         int GenerateInt(int max);
 

@@ -8,19 +8,32 @@ namespace Starship.Core.Factories
     public class CoordinateFactory : ICoordinateFactory
     {
         private readonly IRandomGenerator randomGenerator;
+        private readonly int area1Limit;
+        private readonly int area2Limit;
+        private readonly int area3Limit;
+        private readonly int area4Limit;
 
-        public CoordinateFactory(IRandomGenerator randomGenerator)
+        public CoordinateFactory(
+            IRandomGenerator randomGenerator, 
+            int area1Limit, 
+            int area2Limit, 
+            int area3Limit, 
+            int area4Limit)
         {
             this.randomGenerator = randomGenerator;
+            this.area1Limit = area1Limit;
+            this.area2Limit = area2Limit;
+            this.area3Limit = area3Limit;
+            this.area4Limit = area4Limit;
         }
 
         public Coordinate Create()
         {
             return new Coordinate(
-                randomGenerator.GenerateInt(999), 
-                randomGenerator.GenerateInt(999),
-                randomGenerator.GenerateInt(99),
-                randomGenerator.GenerateInt(9));
+                randomGenerator.GenerateInt(area1Limit), 
+                randomGenerator.GenerateInt(area2Limit),
+                randomGenerator.GenerateInt(area3Limit),
+                randomGenerator.GenerateInt(area4Limit));
         }
 
         public Coordinate CreateFromString(string input)

@@ -9,10 +9,16 @@ namespace Starship.Core.Services
     public class ColonizationService : IColonizationService
     {
         private readonly ITravelService travelService;
+        private readonly int travelTimeInMins;
+        private readonly double colonizationRateKmPerSec;
+        private readonly double pcToColonize;
 
-        public ColonizationService(ITravelService travelService)
+        public ColonizationService(ITravelService travelService, int travelTimeInMins, double colonizationRateKmPerSec, double pcToColonize)
         {
             this.travelService = travelService;
+            this.travelTimeInMins = travelTimeInMins;
+            this.colonizationRateKmPerSec = colonizationRateKmPerSec;
+            this.pcToColonize = pcToColonize;
         }
 
         public IEnumerable<Planet> ConquerTheUniverseSecs(Position startPosition, IList<Planet> planets, double timeLimitInSecs)
@@ -45,11 +51,11 @@ namespace Starship.Core.Services
         
         private Planet FindAndColonizeNextDestination(Position startPos, IList<Planet> planets, ref double remainingTime)
         {
-            var travelTime = 10 * 60;
+            var travelTime = travelTimeInMins * 60;
 
             var destination = travelService.FindNearestObject(startPos, planets);
             planets.Remove(destination);
-            remainingTime -= travelTime + destination.Area * .5 * .43;
+            remainingTime -= travelTime + destination.Area * pcToColonize * colonizationRateKmPerSec;
 
             return destination;
         }

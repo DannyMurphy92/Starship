@@ -97,8 +97,8 @@ namespace Starship.Core.Tests.Factories
         {
             // Arrange
             var rdnRes = fixture.Create<double>();
-            var area = rdnRes * 100;
-            randomGenerator.Setup(r => r.GenerateDouble())
+            var area = rdnRes;
+            randomGenerator.Setup(r => r.GenerateDouble(It.IsAny<double>(), It.IsAny<double>()))
                 .Returns(rdnRes);
             var subject = fixture.Create<PlanetFactory>();
 
